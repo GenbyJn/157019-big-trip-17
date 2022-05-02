@@ -7,15 +7,13 @@ import EventsListTemplate from './view/events-list-view.js';
 import PointDestinationTemplate from './view/destination-view.js';
 import PointOffersTemplate from './view/offers-view.js';
 import EditorPointTemplate from './view/edit-point-view.js';
-import Presrnter from './presenter/presenter.js';
+
 
 const pageHeaderElement = document.querySelector('.page-header');
 const pageHeaderTripMainElement = pageHeaderElement.querySelector('.trip-main');
 const pageHeaderTripMainFiltersElement = pageHeaderElement.querySelector('.trip-controls__filters');
 const pageMainElement = document.querySelector('.page-main');
 const pageMainTripEventsElement = pageMainElement.querySelector('.trip-events');
-
-const presenter = new Presrnter();
 
 render(new MainInfoTemplate(), pageHeaderTripMainElement, RenderPosition.AFTERBEGIN);
 render(new MainFiltersTemplate(), pageHeaderTripMainFiltersElement);
@@ -29,4 +27,4 @@ const pageMainEventDetailsElement = pageMainTripEventsListElement.querySelector(
 render(new PointOffersTemplate(), pageMainEventDetailsElement);
 render(new PointDestinationTemplate(), pageMainEventDetailsElement);
 
-presenter.init(eventsContainer);
+
