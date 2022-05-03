@@ -12,7 +12,7 @@ const createMainInfoTemplate = () => `
   </section>
 `;
 
-export default class MainInfoTemplate {
+export default class MainInfoView {
   getTemplate() {
     return createMainInfoTemplate();
   }

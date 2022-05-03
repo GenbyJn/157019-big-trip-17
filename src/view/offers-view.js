@@ -53,7 +53,7 @@ const createPointOffersTemplate = () => `
   </section>
 `;
 
-export default class PointOffersTemplate {
+export default class PointOffersView {
   getTemplate() {
     return createPointOffersTemplate();
   }

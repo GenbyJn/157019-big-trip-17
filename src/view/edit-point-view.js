@@ -100,7 +100,7 @@ const createEditorPointTemplate = () => `
   </li>
 `;
 
-export default class EditorPointTemplate {
+export default class EditorPointView {
   getTemplate() {
     return createEditorPointTemplate();
   }

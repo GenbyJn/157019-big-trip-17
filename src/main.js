@@ -1,30 +1,27 @@
-import { render, RenderPosition } from './render.js';
+import { render } from './render.js';
 
-import MainInfoTemplate from './view/main-info-view.js';
-import MainFiltersTemplate from './view/main-filters-view.js';
-import SortItemsTemplate from './view/sort-view.js';
-import EventsListTemplate from './view/events-list-view.js';
-import PointDestinationTemplate from './view/destination-view.js';
-import PointOffersTemplate from './view/offers-view.js';
-import EditorPointTemplate from './view/edit-point-view.js';
+import PointDestinationView from './view/destination-view.js';
+import PointOffersView from './view/offers-view.js';
+
+import Presentor from './presenter/presenter.js';
+
+const header = document.querySelector('.page-header');
+const headerTripMain = header.querySelector('.trip-main');
+const headerTripMainFilters = header.querySelector('.trip-controls__filters');
+const main = document.querySelector('.page-main');
+const mainTripEvents = main.querySelector('.trip-events');
+
+import EventsListView from './view/events-list-view.js';
+render(new EventsListView(), mainTripEvents);
+const tripEventsList = main.querySelector('.trip-events__list');
+
+const presenter = new Presentor();
+presenter.init({headerTripMain, headerTripMainFilters, mainTripEvents, tripEventsList});
 
 
-const pageHeaderElement = document.querySelector('.page-header');
-const pageHeaderTripMainElement = pageHeaderElement.querySelector('.trip-main');
-const pageHeaderTripMainFiltersElement = pageHeaderElement.querySelector('.trip-controls__filters');
-const pageMainElement = document.querySelector('.page-main');
-const pageMainTripEventsElement = pageMainElement.querySelector('.trip-events');
+const eventDetails = tripEventsList.querySelector('.event__details');
 
-render(new MainInfoTemplate(), pageHeaderTripMainElement, RenderPosition.AFTERBEGIN);
-render(new MainFiltersTemplate(), pageHeaderTripMainFiltersElement);
-render(new SortItemsTemplate(), pageMainTripEventsElement);
-render(new EventsListTemplate(), pageMainTripEventsElement);
-
-const pageMainTripEventsListElement = pageMainElement.querySelector('.trip-events__list');
-render(new EditorPointTemplate(), pageMainTripEventsListElement);
-
-const pageMainEventDetailsElement = pageMainTripEventsListElement.querySelector('.event__details');
-render(new PointOffersTemplate(), pageMainEventDetailsElement);
-render(new PointDestinationTemplate(), pageMainEventDetailsElement);
+render(new PointOffersView(), eventDetails);
+render(new PointDestinationView(), eventDetails);
 
 

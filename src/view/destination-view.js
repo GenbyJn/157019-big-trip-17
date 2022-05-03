@@ -17,7 +17,7 @@ const createPointDestinationTemplate = () => `
   </section>
 `;
 
-export default class PointDestinationTemplate {
+export default class PointDestinationView {
   getTemplate() {
     return createPointDestinationTemplate();
   }

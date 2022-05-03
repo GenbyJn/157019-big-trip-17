@@ -29,7 +29,7 @@ const createSortItemsTemplate = () => `
   </form>
 `;
 
-export default class SortItemsTemplate {
+export default class SortItemsView {
   getTemplate() {
     return createSortItemsTemplate();
   }

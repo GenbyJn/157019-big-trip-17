@@ -32,7 +32,7 @@ const createEventTripTemplate = () => `
   </li>
 `;
 
-export default class EventTripTemplate {
+export default class EventTripView {
   getTemplate() {
     return createEventTripTemplate();
   }

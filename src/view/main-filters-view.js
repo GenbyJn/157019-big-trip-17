@@ -21,7 +21,7 @@ const createMainFiltersTemplate = () => `
   </form>
 `;
 
-export default class MainFiltersTemplate {
+export default class MainFiltersView {
   getTemplate() {
     return createMainFiltersTemplate();
   }
