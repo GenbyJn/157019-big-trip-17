@@ -2,19 +2,25 @@
 import { render, RenderPosition } from '../render.js';
 import MainInfoView from '../view/main-info-view.js';
 import MainFiltersView from '../view/main-filters-view.js';
-import SortItemsView from '../view/sort-view.js';
-import EditorPointView from '../view/edit-point-view.js';
+import SortView from '../view/sort-view.js';
+import EditPointView from '../view/edit-point-view.js';
 import EventTripView from '../view/event-trip-view.js';
 
-export default class Presentor {
+
+export default class Presenter {
+  mainInfoView = new MainInfoView();
+  mainFiltersView = new MainFiltersView();
+  sortView = new SortView();
+  editPointView = new EditPointView();
+
   init = (containers) => {
-    const {headerTripMain, headerTripMainFilters, mainTripEvents, tripEventsList} = containers;
-    render(new MainInfoView(), headerTripMain, RenderPosition.AFTERBEGIN);
-    render(new MainFiltersView(), headerTripMainFilters);
-    render(new SortItemsView(), mainTripEvents, RenderPosition.AFTERBEGIN);
-    render(new EditorPointView(), tripEventsList);
+    const {headerTripMainElement, headerTripMainFiltersElement, mainTripEventsElement, tripEventsListElement} = containers;
+    render(this.mainInfoView, headerTripMainElement, RenderPosition.AFTERBEGIN);
+    render(this.mainFiltersView, headerTripMainFiltersElement);
+    render(this.sortView, mainTripEventsElement, RenderPosition.AFTERBEGIN);
+    render(this.editPointView, tripEventsListElement);
     for (let i = 0; i < 3; i++) {
-      render(new EventTripView(), tripEventsList);
+      render(new EventTripView(), tripEventsListElement);
     }
   };
 }
