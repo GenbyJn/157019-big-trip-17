@@ -1,8 +1,7 @@
 import { createElement } from '../render.js';
 
-const createEventTripTemplate = () =>(
-  `<li class="trip-events__item">
-  <div class="event">
+const createTripPointTemplate = () =>(
+  `<div class="event">
     <time class="event__date" datetime="2019-03-20">MAR 20</time>
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/sightseeing.png" alt="Event type icon">
@@ -28,13 +27,12 @@ const createEventTripTemplate = () =>(
     <button class="event__rollup-btn" type="button">
       <span class="visually-hidden">Open event</span>
     </button>
-  </div>
-  </li>`
+  </div>`
 );
 
-export default class EventTripView {
+export default class TripPointView {
   getTemplate() {
-    return createEventTripTemplate();
+    return createTripPointTemplate();
   }
 
   getElement() {
