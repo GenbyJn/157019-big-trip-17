@@ -19,7 +19,7 @@ export default class TripSortPresenter {
     const {mainTripEventsElement} = container;
     render(this.tripSortView, mainTripEventsElement, RenderPosition.BEFOREEND);
     render(this.tripSortDayView, this.tripSortView.getElement());
-    render(this.tripSortPoinView, this.tripSortView.getElement());
+    render(this.tripSortPointView, this.tripSortView.getElement());
     render(this.tripSortTimeView, this.tripSortView.getElement());
     render(this.tripSortPriceView, this.tripSortView.getElement());
     render(this.tripSortOfferView, this.tripSortView.getElement());
