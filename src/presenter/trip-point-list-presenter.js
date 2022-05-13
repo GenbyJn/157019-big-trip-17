@@ -7,7 +7,6 @@ import TripEditPointHeaderView from '../view/trip-edit-point/trip-edit-point-hea
 import TripEditPointDetailsView from '../view/trip-edit-point/trip-edit-point-details-view';
 import TripEditPointDetailsOffersView from '../view/trip-edit-point/trip-edit-point-details-offers-view';
 import TripEditPointDetailsDestinationView from '../view/trip-edit-point/trip-edit-point-details-destination-view';
-import TripPointView from '../view/trip-point-view';
 
 export default class TripPointListPresenter{
   tripPointListView = new TripPointListView();
@@ -17,7 +16,6 @@ export default class TripPointListPresenter{
   tripEditPointDetailsView = new TripEditPointDetailsView();
   tripEditPointDetailsOffersView = new TripEditPointDetailsOffersView();
   tripEditPointDetailsDestinationView = new TripEditPointDetailsDestinationView();
-  tripPointView = new TripPointView();
 
   init = (container) => {
     const {mainTripEventsElement, tripPointModel} = container;
