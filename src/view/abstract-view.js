@@ -1,14 +1,14 @@
 import { createElement } from '../render.js';
 
-const createTripPointListTemplate = () => '<ul class="trip-events__list"> </ul>';
+export default class AbstractView {
+  element = null;
 
-export default class TripPointListView {
   getTemplate() {
-    return createTripPointListTemplate();
+    return '';
   }
 
   getElement() {
-    if (!this.element) {
+    if (this.element === null) {
       this.element = createElement(this.getTemplate());
     }
 

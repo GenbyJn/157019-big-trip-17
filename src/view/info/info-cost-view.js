@@ -1,13 +1,14 @@
 import { createElement } from '../../render.js';
 
-const createTripEditPointTemplate = () => (
-  `<form class="event event--edit" action="#" method="post">
-  </form>`
+const createInfoCostTemplate = () => (
+  `<p class="trip-info__cost">
+      Total: €&nbsp;<span class="trip-info__cost-value">1230</span>
+    </p>`
 );
 
-export default class TripEditPointView {
+export default class InfoCostView {
   getTemplate() {
-    return createTripEditPointTemplate();
+    return createInfoCostTemplate();
   }
 
   getElement() {
@@ -22,5 +23,3 @@ export default class TripEditPointView {
     this.element = null;
   }
 }
-
-

@@ -1,12 +1,12 @@
-import { createElement } from '../../render.js';
+import { createElement } from '@/render.js';
 
-const createTripEditPointDetailsTemplate = () => (
+const createEditPointDetailsTemplate = () => (
   '<section class="event__details"></section>'
 );
 
-export default class TripEditPointDetailsView {
+export default class EditPointDetailsView {
   getTemplate() {
-    return createTripEditPointDetailsTemplate();
+    return createEditPointDetailsTemplate();
   }
 
   getElement() {

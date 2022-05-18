@@ -1,0 +1,1 @@
+<div class="event__type-wrapper"></div>

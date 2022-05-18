@@ -1,21 +1,21 @@
-import TripInfoPresenter from './presenter/trip-info-presenter.js';
-import TripFiltersPresenter from './presenter/trip-filters-presenter.js';
-import TripSortPresenter from './presenter/trip-sort-presenter.js';
-import TripPointListPresenter from './presenter/trip-point-list-presenter.js';
+import InfoPresenter from './presenter/info-presenter.js';
+import FiltersPresenter from './presenter/filters-presenter.js';
+import SortPresenter from './presenter/sort-presenter.js';
+import PointListPresenter from './presenter/point-list-presenter.js';
 import TripPointModel from './model/trip-point-model.js';
 
 const headerTripMainElement = document.querySelector('.trip-main');
-const headerTripMainFiltersElement = headerTripMainElement.querySelector('.trip-controls__filters');
+const headerMainFiltersElement = headerTripMainElement.querySelector('.trip-controls__filters');
 const mainTripEventsElement = document.querySelector('.trip-events');
 
 const tripPointModel = new TripPointModel();
-const tripInfoPresenter = new TripInfoPresenter();
-const tripFiltersPresenter = new TripFiltersPresenter();
-const tripSortPresenter = new TripSortPresenter();
-const tripPointListPresenter = new TripPointListPresenter();
+const infoPresenter = new InfoPresenter();
+const filtersPresenter = new FiltersPresenter();
+const sortPresenter = new SortPresenter();
+const pointListPresenter = new PointListPresenter();
 
-tripInfoPresenter.init({headerTripMainElement});
-tripFiltersPresenter.init({headerTripMainFiltersElement});
-tripSortPresenter.init({mainTripEventsElement});
-tripPointListPresenter.init({mainTripEventsElement, tripPointModel});
+infoPresenter.init({headerTripMainElement});
+filtersPresenter.init({headerMainFiltersElement});
+sortPresenter.init({mainTripEventsElement});
+pointListPresenter.init({mainTripEventsElement, tripPointModel});
 
