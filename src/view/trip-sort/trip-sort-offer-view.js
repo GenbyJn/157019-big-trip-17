@@ -1,4 +1,4 @@
-import { createElement } from '../../render.js';
+import { createElement } from '@/render.js';
 
 const createTripSortOfferTemplate = () =>(
   `<div class="trip-sort__item  trip-sort__item--offer">
