@@ -5,6 +5,7 @@ import { formatingToDate, formatingToTime, differenceTime } from '@/util';
 const createTripPointListItemTemplate = (tripPoint) => {
   const {basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type} = tripPoint;
 
+  const timeInTrip = differenceTime(dateTo,dateFrom);
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
@@ -23,7 +24,7 @@ const createTripPointListItemTemplate = (tripPoint) => {
           —
           <time class="event__end-time" datetime="${dateTo}">${formatingToTime(dateTo)}</time>
         </p>
-        <p class="event__duration">${differenceTime(dateTo,dateFrom)}H</p>
+        <p class="event__duration">${timeInTrip}H</p>
       </div>
       <p class="event__price">
         €&nbsp;<span class="event__price-value">${basePrice}</span>

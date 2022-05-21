@@ -11,7 +11,7 @@ const randomInteger = (min, max) => {
 const formatingToDate = (dueDate) => dayjs(dueDate).format('MMM D');
 const formatingToTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
-const differenceTime = (dayTo, dayFrom) => dayjs(dayTo).diff(dayFrom, 'hour');
+const differenceTime = (dateTo, dateFrom) => dayjs(dateTo).diff(dateFrom, 'hour');
 
 
 export { randomInteger, formatingToDate, formatingToTime, differenceTime };
