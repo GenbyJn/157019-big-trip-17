@@ -1,28 +1,34 @@
 import { createElement } from '@/render.js';
+import { randomInteger } from '../util';
+import { formatingToDate, formatingToTime, differenceTime } from '@/util';
 
-// eslint-disable-next-line no-unused-expressions
 const createTripPointListItemTemplate = (tripPoint) => {
   const {basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type} = tripPoint;
+
+  const favoriteClassName = isFavorite
+    ? 'event__favorite-btn event__favorite-btn--active'
+    : 'event__favorite-btn';
+
   return (
     `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-20">MAR 20</time>
+      <time class="event__date" datetime="${dateFrom}">${formatingToDate(dateFrom)}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/sightseeing.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type[randomInteger(0,6)]}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">Sightseeing Geneva</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-20T11:15">11:15</time>
+          <time class="event__start-time" datetime="${dateFrom}">${formatingToTime(dateFrom)}</time>
           —
-          <time class="event__end-time" datetime="2019-03-20T12:15">12:15</time>
+          <time class="event__end-time" datetime="${dateTo}">${formatingToTime(dateTo)}</time>
         </p>
-        <p class="event__duration">01H</p>
+        <p class="event__duration">${differenceTime(dateTo,dateFrom)}H</p>
       </div>
       <p class="event__price">
         €&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
-      <button class="event__favorite-btn" type="button">
+      <button class="${favoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>
         <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
           <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"></path>
