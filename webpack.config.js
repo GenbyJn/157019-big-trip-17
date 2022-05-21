@@ -29,6 +29,7 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@view': path.resolve(__dirname, 'src/view'),
+      '@edit-point-header': path.resolve(__dirname, 'src/view/edit-point/header'),
       '@presenter': path.resolve(__dirname, 'src/presenter'),
     },
   }

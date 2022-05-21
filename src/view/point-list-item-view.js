@@ -1,7 +1,10 @@
 import { createElement } from '@/render.js';
 
-const createTripPointListItemTemplate = () => (
-  `<li class="trip-events__item">
+// eslint-disable-next-line no-unused-expressions
+const createTripPointListItemTemplate = (tripPoint) => {
+  const {basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type} = tripPoint;
+  return (
+    `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-20">MAR 20</time>
       <div class="event__type">
@@ -17,7 +20,7 @@ const createTripPointListItemTemplate = () => (
         <p class="event__duration">01H</p>
       </div>
       <p class="event__price">
-        €&nbsp;<span class="event__price-value">180</span>
+        €&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <button class="event__favorite-btn" type="button">
         <span class="visually-hidden">Add to favorite</span>
@@ -30,11 +33,15 @@ const createTripPointListItemTemplate = () => (
       </button>
   </div>
 </li>`
-);
+  );};
 
 export default class TripPointListItemView {
+  constructor(tripPoint) {
+    this.tripPoint = tripPoint;
+  }
+
   getTemplate() {
-    return createTripPointListItemTemplate();
+    return createTripPointListItemTemplate(this.tripPoint);
   }
 
   getElement() {

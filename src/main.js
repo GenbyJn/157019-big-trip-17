@@ -2,7 +2,7 @@ import InfoPresenter from './presenter/info-presenter.js';
 import FiltersPresenter from './presenter/filters-presenter.js';
 import SortPresenter from './presenter/sort-presenter.js';
 import PointListPresenter from './presenter/point-list-presenter.js';
-import TripPointModel from './model/trip-point-model.js';
+import TripPointModel from './model/point-model.js';
 
 const headerTripMainElement = document.querySelector('.trip-main');
 const headerMainFiltersElement = headerTripMainElement.querySelector('.trip-controls__filters');

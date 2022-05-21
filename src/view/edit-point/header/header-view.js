@@ -1,14 +1,14 @@
 import { createElement } from '@/render.js';
 
-export default class AbstractView {
-  element = null;
+const createEditPointHeaderTemplate = () => '<header class="event__header"></header>';
 
+export default class EditPointHeaderView {
   getTemplate() {
-    return '';
+    return createEditPointHeaderTemplate();
   }
 
   getElement() {
-    if (this.element === null) {
+    if (!this.element) {
       this.element = createElement(this.getTemplate());
     }
 
@@ -19,3 +19,5 @@ export default class AbstractView {
     this.element = null;
   }
 }
+
+
