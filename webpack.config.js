@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
@@ -22,5 +22,14 @@ module.exports = {
         use: ['babel-loader']
       }
     ]
+  },
+
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@view': path.resolve(__dirname, 'src/view'),
+      '@edit-point-header': path.resolve(__dirname, 'src/view/edit-point/header'),
+      '@presenter': path.resolve(__dirname, 'src/presenter'),
+    },
   }
-};
+}
