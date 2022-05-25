@@ -1,11 +1,10 @@
-import { createElement } from '@/render.js';
-import { randomInteger } from '../util';
+import { createElement } from '@/render';
 import { formatingToDate, formatingToTime, differenceTime } from '@/util';
 
-const createTripPointListItemTemplate = (tripPoint) => {
-  const {basePrice, dateFrom, dateTo, destination, id, isFavorite, offers, type} = tripPoint;
+const createTripPointListItemTemplate = (point) => {
+  const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
 
-  const timeInTrip = differenceTime(dateTo,dateFrom);
+  const timeInTrip = differenceTime(dateTo, dateFrom);
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
@@ -14,16 +13,16 @@ const createTripPointListItemTemplate = (tripPoint) => {
   return (
     `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="${dateFrom}">${formatingToDate(dateFrom)}</time>
+      <time class="event__date" datetime="${dateFrom.toISOString()}">${formatingToDate(dateFrom)}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${type[randomInteger(0,6)]}.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Sightseeing Geneva</h3>
+      <h3 class="event__title">${type} Geneva</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${dateFrom}">${formatingToTime(dateFrom)}</time>
+          <time class="event__start-time" datetime="${dateFrom.toISOString()}">${formatingToTime(dateFrom)}</time>
           —
-          <time class="event__end-time" datetime="${dateTo}">${formatingToTime(dateTo)}</time>
+          <time class="event__end-time" datetime="${dateTo.toISOString()}">${formatingToTime(dateTo)}</time>
         </p>
         <p class="event__duration">${timeInTrip}H</p>
       </div>
@@ -41,15 +40,16 @@ const createTripPointListItemTemplate = (tripPoint) => {
       </button>
   </div>
 </li>`
-  );};
+  );
+};
 
 export default class TripPointListItemView {
-  constructor(tripPoint) {
-    this.tripPoint = tripPoint;
+  constructor(point) {
+    this.point = point;
   }
 
   getTemplate() {
-    return createTripPointListItemTemplate(this.tripPoint);
+    return createTripPointListItemTemplate(this.point);
   }
 
   getElement() {
