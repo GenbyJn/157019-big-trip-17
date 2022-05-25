@@ -1,7 +1,8 @@
-import { generatePoint } from '../mock/point.js';
+import { generatePoints } from '../mock/point.js';
 
-export default class PointModel {
-  tripPoints = Array.from({length: 3}, generatePoint);
+export default class PointsModel {
 
-  getTripPonts = () => this.tripPoints;
+  points = generatePoints();
+
+  getPoints = () => this.points;
 }

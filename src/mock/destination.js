@@ -1,6 +1,8 @@
 import { randomInteger } from '../util';
 
-export const generateDestination = () => ({
+const generateDestination = ({
+  name = 'Chamonix',
+} = {}) => ({
   description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
   name: 'Chamonix',
   pictures: [
@@ -10,3 +12,13 @@ export const generateDestination = () => ({
     }
   ]
 });
+
+const generateDestinations = () => [
+  generateDestination({ name: 'Moon' }),
+  generateDestination({ name: 'Mars' }),
+];
+
+export {
+  generateDestinations,
+  generateDestination,
+};

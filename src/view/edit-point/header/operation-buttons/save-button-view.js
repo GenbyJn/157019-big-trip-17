@@ -1,6 +1,8 @@
 import { createElement } from '@/render';
 
-const createSaveButtonTemplate = () => '<button class="event__save-btn  btn  btn--blue" type="submit">Save</button>';
+const createSaveButtonTemplate = () => (
+  '<button class="event__save-btn btn btn--blue" type="submit">Save</button>'
+);
 
 export default class SaveButtonView {
   getTemplate() {

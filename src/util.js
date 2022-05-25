@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
-const duration = require('dayjs/plugin/duration')
-dayjs.extend(duration)
+const duration = require('dayjs/plugin/duration');
+dayjs.extend(duration);
 
 // Источник https://learn.javascript.ru/task/random-int-min-max
 const randomInteger = (min, max) => {
@@ -13,5 +13,7 @@ const formatingToTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
 const differenceTime = (dateTo, dateFrom) => dayjs(dateTo).diff(dateFrom, 'hour');
 
+const camalizeFirstCharacter = ([initial, ...rest]) => [initial.toUpperCase(), ...rest].join('');
 
-export { randomInteger, formatingToDate, formatingToTime, differenceTime };
+export { randomInteger, formatingToDate, formatingToTime, differenceTime, camalizeFirstCharacter };
+

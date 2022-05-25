@@ -1,10 +1,18 @@
 import { createElement } from '@/render';
 
-const createResetButtonTemplate = () => '<button class="event__reset-btn" type="reset">Delete</button>';
+const createResetButtonTemplate = ({ text }) => (
+  `<button class="event__reset-btn" type="reset">${text}</button>`
+);
 
 export default class ResetButtonView {
+  _state = {};
+
+  constructor({ resetButtonText: text }) {
+    this._state = { text };
+  }
+
   getTemplate() {
-    return createResetButtonTemplate();
+    return createResetButtonTemplate(this._state);
   }
 
   getElement() {
