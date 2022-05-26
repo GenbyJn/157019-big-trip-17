@@ -24,29 +24,30 @@ const createEditPointTypeListTemplate = ({ types }) => (
 );
 
 export default class EditPointTypeListView {
+  #element = null;
   _state = {};
 
   constructor({ types }) {
     this._state = { types };
 
-    this.getElement().querySelector('.event__type-group')
+    this.#element.querySelector('.event__type-group')
       .addEventListener('change', this.typeChangeHandler);
   }
 
-  getTemplate() {
+  get template() {
     return createEditPointTypeListTemplate(this._state);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 
   typeChangeHandler(evt) {

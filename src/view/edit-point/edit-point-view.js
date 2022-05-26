@@ -55,6 +55,9 @@ export default class EditPointView extends useChildrenView(AbstractView) {
   }
 
   getTemplate() {
+    this.setChildRender('rollupButton', !!this._state.id); // this._state.isNewMode
+    this.setChildRender('offers', this._state.offers.length > 0);
+
     return createEditPointTemplate(this._state);
   }
 

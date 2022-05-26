@@ -7,18 +7,27 @@ const useChildrenView = (view) => class extends view {
   getElement() {
     const element = super.getElement();
 
-    for (const [name, { selector, position }] of this.#childs) {
-      const container = selector ? element.querySelector(selector) : element;
+    for (const [name, options] of this.#childs) {
+      const { enumerable: shouldRender } = Object.getOwnPropertyDescriptor(this._children, name);
 
-      render(this._children[name], container, position);
+      if (shouldRender) {
+        this.#renderChild(name, element, options);
+      }
     }
 
     return element;
   }
 
   removeElement() {
-    for (const childView in this._children) {
-      childView.removeElement();
+    const children = Object.getOwnPropertyDescriptors(this._children);
+
+    for (const name in children) {
+      const { value: childView } = children[name];
+
+      if (childView) {
+        childView.removeElement();
+        this.#prepareChild(name);
+      }
     }
 
     super.removeElement();
@@ -26,9 +35,17 @@ const useChildrenView = (view) => class extends view {
 
   addChild(name, options) {
     this.#childs.set(name, options);
+    this.#prepareChild(name);
+  }
 
+  setChildRender(name, shouldRender = true) {
+    Object.defineProperty(this._children, name, { enumerable: shouldRender });
+  }
+
+  #prepareChild(name) {
     Object.defineProperty(this._children, name, {
       configurable: true,
+      enumerable: true,
       get: () => {
         const { view: ChildView } = this.#childs.get(name);
 
@@ -40,6 +57,15 @@ const useChildrenView = (view) => class extends view {
         return childView;
       }
     });
+  }
+
+  #renderChild(name, container, { selector, position }) {
+    if (selector) {
+      container = container.querySelector(selector);
+    }
+
+    render(this._children[name], container, position);
+    Object.defineProperty(this._children, name, { enumerable: false });
   }
 };
 

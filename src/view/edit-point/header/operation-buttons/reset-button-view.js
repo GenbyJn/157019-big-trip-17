@@ -5,25 +5,26 @@ const createResetButtonTemplate = ({ text }) => (
 );
 
 export default class ResetButtonView {
+  #element = null;
   _state = {};
 
   constructor({ resetButtonText: text }) {
     this._state = { text };
   }
 
-  getTemplate() {
+  get template() {
     return createResetButtonTemplate(this._state);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
