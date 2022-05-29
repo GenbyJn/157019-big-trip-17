@@ -1,24 +1,12 @@
-import { createElement } from '@/render.js';
+import AbstractView from '@view/abstract-view';
 
 const createEditPointHeaderTemplate = () => '<header class="event__header"></header>';
 
-export default class EditPointHeaderView {
+export default class EditPointHeaderView extends AbstractView {
   #element = null;
 
   get template() {
     return createEditPointHeaderTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 

@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createGroupDestinationTemplate = () => (
   `<div class="event__field-group  event__field-group--destination">
@@ -14,22 +14,10 @@ const createGroupDestinationTemplate = () => (
 </div>`
 );
 
-export default class GroupDestinationView {
+export default class GroupDestinationView extends AbstractView {
   #element = null;
 
   get template() {
     return createGroupDestinationTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

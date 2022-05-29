@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createGroupTimeTemplate = () => (
   `<div class="event__field-group  event__field-group--time">
@@ -10,22 +10,10 @@ const createGroupTimeTemplate = () => (
   </div>`
 );
 
-export default class GroupTimeView {
+export default class GroupTimeView extends AbstractView{
   #element = null;
 
   get template() {
     return createGroupTimeTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

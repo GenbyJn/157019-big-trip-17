@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createEditPointTypeWrapperTemplate = ({ type }) => (
   `<div class="event__type-wrapper">
@@ -10,28 +10,17 @@ const createEditPointTypeWrapperTemplate = ({ type }) => (
   </div>`
 );
 
-export default class EditPointTypeWrapperView {
+export default class EditPointTypeWrapperView extends AbstractView {
   #element = null;
   _state = null;
 
   constructor({ type }) {
+    super();
     this._state = { type };
   }
 
   get template() {
     return createEditPointTypeWrapperTemplate(this._state);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 

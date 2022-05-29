@@ -1,26 +1,12 @@
-import { createElement } from '@/render.js';
+import AbstractView from '@view/abstract-view';
 
-const createEditPointDetailsTemplate = () => (
-  '<section class="event__details"></section>'
-);
+const createEditPointDetailsTemplate = () => '<section class="event__details"></section>';
 
-export default class EditPointDetailsView {
+export default class EditPointDetailsView extends AbstractView{
   #element = null;
 
   get template() {
     return createEditPointDetailsTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 

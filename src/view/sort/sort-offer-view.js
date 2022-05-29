@@ -1,4 +1,4 @@
-import { createElement } from '@/render.js';
+import AbstractView from '@view/abstract-view';
 
 const createSortOfferTemplate = () =>(
   `<div class="trip-sort__item  trip-sort__item--offer">
@@ -7,22 +7,10 @@ const createSortOfferTemplate = () =>(
   </div>`
 );
 
-export default class SortOfferView {
+export default class SortOfferView extends AbstractView {
   #element = null;
 
   get template() {
     return createSortOfferTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

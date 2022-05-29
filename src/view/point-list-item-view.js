@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
 const createTripPointListItemTemplate = (point) => {
@@ -43,26 +43,15 @@ const createTripPointListItemTemplate = (point) => {
   );
 };
 
-export default class TripPointListItemView {
+export default class TripPointListItemView extends AbstractView {
   #element = null;
 
   constructor(point) {
+    super();
     this.point = point;
   }
 
   get template() {
     return createTripPointListItemTemplate(this.point);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

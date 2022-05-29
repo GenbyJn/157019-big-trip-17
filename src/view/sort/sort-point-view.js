@@ -1,4 +1,4 @@
-import { createElement } from '@/render.js';
+import AbstractView from '@view/abstract-view';
 
 const createSortPointTemplate = () =>(
   `<div class="trip-sort__item  trip-sort__item--event">
@@ -7,22 +7,10 @@ const createSortPointTemplate = () =>(
   </div>`
 );
 
-export default class SortPointView {
+export default class SortPointView extends AbstractView {
   #element = null;
 
   get template() {
     return createSortPointTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
