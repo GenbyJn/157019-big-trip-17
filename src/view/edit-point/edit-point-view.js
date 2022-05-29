@@ -24,6 +24,7 @@ const createEditPointTemplate = () => (
 );
 
 export default class EditPointView extends useChildrenView(AbstractView) {
+
   constructor(point) {
     super();
 
@@ -54,7 +55,7 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this.addChild('destination', {view: DestinationView, selector: '.event__details'});
   }
 
-  getTemplate() {
+  get template() {
     this.setChildRender('rollupButton', !!this._state.id); // this._state.isNewMode
     this.setChildRender('offers', this._state.offers.length > 0);
 
@@ -65,3 +66,4 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this._children.header.setChangeHandler(callback);
   }
 }
+
