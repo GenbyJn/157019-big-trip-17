@@ -5,14 +5,14 @@ import InfoMainView from '../view/info/info-main-view.js';
 import InfoCostView from '../view/info/info-cost-view.js';
 
 export default class InfoPresenter {
-  #tripInfoView = new InfoView();
-  #tripInfoMainView = new InfoMainView();
-  #tripInfoCostView = new InfoCostView();
+  #infoView = new InfoView();
+  #infoMainView = new InfoMainView();
+  #infoCostView = new InfoCostView();
 
   init = (container) => {
     const {headerTripMainElement} = container;
-    render(this.#tripInfoView, headerTripMainElement, RenderPosition.AFTERBEGIN);
-    render(this.#tripInfoMainView, this.#tripInfoView.element);
-    render(this.#tripInfoCostView, this.#tripInfoView.element);
+    render(this.#infoView, headerTripMainElement, RenderPosition.AFTERBEGIN);
+    render(this.#infoMainView, this.#infoView.element);
+    render(this.#infoCostView, this.#infoView.element);
   };
 }

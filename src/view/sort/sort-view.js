@@ -1,14 +1,14 @@
 import { createElement } from '@/render.js';
 
-const createTripSortTemplate = () =>(
+const createSortTemplate = () =>(
   '<form class="trip-events__trip-sort  trip-sort" action="#" method="get"></form>'
 );
 
-export default class TripSortView {
+export default class SortView {
   #element = null;
 
   get template() {
-    return createTripSortTemplate();
+    return createSortTemplate();
   }
 
   get element() {

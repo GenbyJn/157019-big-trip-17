@@ -66,4 +66,4 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this._children.header.setChangeHandler(callback);
   }
 }
-
+console.log(createEditPointTemplate());
