@@ -1,14 +1,14 @@
 import { createElement } from '@/render.js';
 
-const createTripInfoTemplate = () => (
+const createInfoTemplate = () => (
   '<section class="trip-main__trip-info  trip-info"></section>'
 );
 
-export default class TripInfoView {
+export default class InfoView {
   #element = null;
 
   get template() {
-    return createTripInfoTemplate();
+    return createInfoTemplate();
   }
 
   get element() {
