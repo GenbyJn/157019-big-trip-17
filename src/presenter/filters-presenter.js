@@ -1,9 +1,9 @@
-import { render } from '../render.js';
+import { render } from '@/render.js';
 
-import FiltersView from '../view/filters/filters-view.js';
-import FiltersEverythingView from '../view/filters/filters-everything-view.js';
-import FiltersFutureView from '../view/filters/filters-future-view.js';
-import FiltersPastView from '../view/filters/filters-past-view.js';
+import FiltersView from '@filters/filters-view.js';
+import FiltersEverythingView from '@filters/filters-everything-view.js';
+import FiltersFutureView from '@filters/filters-future-view.js';
+import FiltersPastView from '@filters/filters-past-view.js';
 
 export default class FiltersPresenter {
   #filtersView = new FiltersView();

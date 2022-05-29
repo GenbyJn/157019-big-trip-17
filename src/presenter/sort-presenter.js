@@ -1,11 +1,11 @@
-import { render, RenderPosition } from '../render.js';
+import { render, RenderPosition } from '@/render.js';
 
-import SortView from '../view/sort/sort-view.js';
-import SortDayView from '../view/sort/sort-day-view.js';
-import SortPointView from '../view/sort/sort-point-view.js';
-import SortTimeView from '../view/sort/sort-time-view.js';
-import SortPriceView from '../view/sort/sort-price-view.js';
-import SortOfferView from '../view/sort/sort-offer-view.js';
+import SortView from '@sort/sort-view.js';
+import SortDayView from '@sort/sort-day-view.js';
+import SortPointView from '@sort/sort-point-view.js';
+import SortTimeView from '@sort/sort-time-view.js';
+import SortPriceView from '@sort/sort-price-view.js';
+import SortOfferView from '@sort/sort-offer-view.js';
 
 export default class TripSortPresenter {
   #sortView = new SortView();

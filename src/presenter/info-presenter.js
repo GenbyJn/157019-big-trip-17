@@ -1,8 +1,8 @@
-import { render, RenderPosition } from '../render.js';
+import { render, RenderPosition } from '@/render.js';
 
-import InfoView from '../view/info/trip-info-view.js';
-import InfoMainView from '../view/info/info-main-view.js';
-import InfoCostView from '../view/info/info-cost-view.js';
+import InfoView from '@info/trip-info-view.js';
+import InfoMainView from '@info/info-main-view.js';
+import InfoCostView from '@info/info-cost-view.js';
 
 export default class InfoPresenter {
   #infoView = new InfoView();
