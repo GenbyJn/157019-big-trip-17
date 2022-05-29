@@ -1,6 +1,6 @@
 import AbstractView from '@view/abstract-view';
 import { useChildrenView } from '@view/use-children-view';
-import {camalizeFirstCharacter} from '../../util';
+import {camalizeFirstCharacter} from '../../util/util';
 import { POINT_TYPES } from '@/const';
 
 import HeaderView from '@edit-point-header/header-view';
@@ -41,23 +41,23 @@ export default class EditPointView extends useChildrenView(AbstractView) {
       types,
     };
 
-    this.addChild('header', {view: HeaderView, selector: '.event--edit'});
-    this.addChild('wrapper', {view: WrapperView, selector: '.event__header'});
-    this.addChild('typeList', {view: TypeListView, selector: '.event__type-wrapper'});
-    this.addChild('groupDestination', {view: GroupDestinationView, selector: '.event__header'});
-    this.addChild('groupTime', {view: GroupTimeView, selector: '.event__header'});
-    this.addChild('groupPrice', {view: GroupPriceView, selector: '.event__header'});
-    this.addChild('saveButton', {view: SaveButtonView, selector: '.event__header'});
-    this.addChild('resetButton', {view: ResetButtonView, selector: '.event__header'});
-    this.addChild('rollupButton', {view: RollupButtonView, selector: '.event__header'});
-    this.addChild('details', {view: DetailsView, selector: '.event--edit'});
-    this.addChild('offers', {view: OffersView, selector: '.event__details'});
-    this.addChild('destination', {view: DestinationView, selector: '.event__details'});
+    this._addChild('header', {view: HeaderView, selector: '.event--edit'});
+    this._addChild('wrapper', {view: WrapperView, selector: '.event__header'});
+    this._addChild('typeList', {view: TypeListView, selector: '.event__type-wrapper'});
+    this._addChild('groupDestination', {view: GroupDestinationView, selector: '.event__header'});
+    this._addChild('groupTime', {view: GroupTimeView, selector: '.event__header'});
+    this._addChild('groupPrice', {view: GroupPriceView, selector: '.event__header'});
+    this._addChild('saveButton', {view: SaveButtonView, selector: '.event__header'});
+    this._addChild('resetButton', {view: ResetButtonView, selector: '.event__header'});
+    this._addChild('rollupButton', {view: RollupButtonView, selector: '.event__header'});
+    this._addChild('details', {view: DetailsView, selector: '.event--edit'});
+    this._addChild('offers', {view: OffersView, selector: '.event__details'});
+    this._addChild('destination', {view: DestinationView, selector: '.event__details'});
   }
 
   get template() {
-    this.setChildRender('rollupButton', !!this._state.id); // this._state.isNewMode
-    this.setChildRender('offers', this._state.offers.length > 0);
+    this._setChildRender('rollupButton', !!this._state.id); // this._state.isNewMode
+    this._setChildRender('offers', this._state.offers.length > 0);
 
     return createEditPointTemplate(this._state);
   }
@@ -66,4 +66,3 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this._children.header.setChangeHandler(callback);
   }
 }
-console.log(createEditPointTemplate());

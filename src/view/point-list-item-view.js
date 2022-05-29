@@ -1,10 +1,10 @@
 import { createElement } from '@/render';
-import { formatingToDate, formatingToTime, differenceTime } from '@/util';
+import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
 const createTripPointListItemTemplate = (point) => {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
 
-  const timeInTrip = differenceTime(dateTo, dateFrom);
+  const eventDuration = formatDuration(dateTo - dateFrom);
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
@@ -13,18 +13,18 @@ const createTripPointListItemTemplate = (point) => {
   return (
     `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="${dateFrom.toISOString()}">${formatingToDate(dateFrom)}</time>
+      <time class="event__date" datetime="${dateFrom.toISOString()}">${formatMonthDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">${type} Geneva</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${dateFrom.toISOString()}">${formatingToTime(dateFrom)}</time>
+          <time class="event__start-time" datetime="${dateFrom.toISOString()}">${formatTimeDate(dateFrom)}</time>
           —
-          <time class="event__end-time" datetime="${dateTo.toISOString()}">${formatingToTime(dateTo)}</time>
+          <time class="event__end-time" datetime="${dateTo.toISOString()}">${formatTimeDate(dateTo)}</time>
         </p>
-        <p class="event__duration">${timeInTrip}H</p>
+        <p class="event__duration">${eventDuration}H</p>
       </div>
       <p class="event__price">
         €&nbsp;<span class="event__price-value">${basePrice}</span>

@@ -4,8 +4,8 @@ const useChildrenView = (view) => class extends view {
   #childs = new Map();
   _children = {};
 
-  getElement() {
-    const element = super.getElement();
+  get element() {
+    const element = super.element;
 
     for (const [name, options] of this.#childs) {
       const { enumerable: shouldRender } = Object.getOwnPropertyDescriptor(this._children, name);
@@ -33,12 +33,12 @@ const useChildrenView = (view) => class extends view {
     super.removeElement();
   }
 
-  addChild(name, options) {
+  _addChild(name, options) {
     this.#childs.set(name, options);
     this.#prepareChild(name);
   }
 
-  setChildRender(name, shouldRender = true) {
+  _setChildRender(name, shouldRender = true) {
     Object.defineProperty(this._children, name, { enumerable: shouldRender });
   }
 
