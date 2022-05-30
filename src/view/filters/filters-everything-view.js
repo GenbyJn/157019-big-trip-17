@@ -8,7 +8,6 @@ const createFiltersEverythingTemplate = () =>(
 );
 
 export default class FiltersEverythingView extends AbstractView {
-  #element = null;
 
   get template() {
     return createFiltersEverythingTemplate();

@@ -11,7 +11,6 @@ const createEditPointTypeWrapperTemplate = ({ type }) => (
 );
 
 export default class EditPointTypeWrapperView extends AbstractView {
-  #element = null;
   _state = null;
 
   constructor({ type }) {

@@ -11,7 +11,6 @@ const createGroupTimeTemplate = () => (
 );
 
 export default class GroupTimeView extends AbstractView{
-  #element = null;
 
   get template() {
     return createGroupTimeTemplate();

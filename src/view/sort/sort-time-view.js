@@ -8,7 +8,6 @@ const createSortTimeTemplate = () =>(
 );
 
 export default class SortTimeView extends AbstractView {
-  #element = null;
 
   get template() {
     return createSortTimeTemplate();

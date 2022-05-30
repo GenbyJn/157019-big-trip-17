@@ -8,7 +8,6 @@ const createSortDayTemplate = () =>(
 );
 
 export default class SortDayView extends AbstractView {
-  #element = null;
 
   get template() {
     return createSortDayTemplate();

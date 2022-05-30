@@ -8,7 +8,6 @@ const createSortOfferTemplate = () =>(
 );
 
 export default class SortOfferView extends AbstractView {
-  #element = null;
 
   get template() {
     return createSortOfferTemplate();

@@ -11,7 +11,6 @@ const createGroupPriceTemplate = () => (
 );
 
 export default class GroupPriceView extends AbstractView {
-  #element = null;
 
   get template() {
     return createGroupPriceTemplate();

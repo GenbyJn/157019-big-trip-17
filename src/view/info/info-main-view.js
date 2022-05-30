@@ -8,7 +8,6 @@ const createInfoMainTemplate = () => (
 );
 
 export default class InfoMainView extends AbstractView {
-  #element = null;
 
   get template() {
     return createInfoMainTemplate();

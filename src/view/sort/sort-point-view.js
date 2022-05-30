@@ -8,7 +8,6 @@ const createSortPointTemplate = () =>(
 );
 
 export default class SortPointView extends AbstractView {
-  #element = null;
 
   get template() {
     return createSortPointTemplate();

@@ -7,7 +7,6 @@ const createRollupButtonTemplate = () => (
 );
 
 export default class RollupButtonView extends AbstractView {
-  #element = null;
 
   get template() {
     return createRollupButtonTemplate();

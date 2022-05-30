@@ -7,8 +7,7 @@ const createTripFiltersFutureTemplate = () =>(
   </div>`
 );
 
-export default class TripFiltersFutureView extends AbstractView{
-  #element = null;
+export default class TripFiltersFutureView extends AbstractView {
 
   get template() {
     return createTripFiltersFutureTemplate();

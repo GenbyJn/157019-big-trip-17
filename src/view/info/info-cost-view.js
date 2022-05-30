@@ -7,7 +7,6 @@ const createInfoCostTemplate = () => (
 );
 
 export default class InfoCostView extends AbstractView {
-  #element = null;
 
   get template() {
     return createInfoCostTemplate();

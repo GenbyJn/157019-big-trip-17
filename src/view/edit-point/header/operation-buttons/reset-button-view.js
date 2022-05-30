@@ -5,7 +5,7 @@ const createResetButtonTemplate = ({ text }) => (
 );
 
 export default class ResetButtonView extends AbstractView {
-  #element = null;
+
   _state = {};
 
   constructor({ resetButtonText: text }) {

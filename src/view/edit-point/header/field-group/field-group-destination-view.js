@@ -15,7 +15,6 @@ const createGroupDestinationTemplate = () => (
 );
 
 export default class GroupDestinationView extends AbstractView {
-  #element = null;
 
   get template() {
     return createGroupDestinationTemplate();

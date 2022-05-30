@@ -8,7 +8,6 @@ const createTripFiltersPastTemplate = () =>(
 );
 
 export default class TripFiltersPastView extends AbstractView {
-  #element = null;
 
   get template() {
     return createTripFiltersPastTemplate();

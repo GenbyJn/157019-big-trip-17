@@ -49,7 +49,6 @@ const createEditPointDetailsOffersTemplate = () => (
 );
 
 export default class EditPointDetailsOffersView extends AbstractView{
-  #element = null;
 
   get template() {
     return createEditPointDetailsOffersTemplate();

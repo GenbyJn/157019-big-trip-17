@@ -6,8 +6,7 @@ const createTripFiltersViewTemplate = () => (
   </form>`
 );
 
-export default class TripFiltersView extends AbstractView{
-  #element = null;
+export default class TripFiltersView extends AbstractView {
 
   get template() {
     return createTripFiltersViewTemplate();

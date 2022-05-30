@@ -8,7 +8,6 @@ const createEditPointDestinationTemplate = () => (
 );
 
 export default class EditPointDestinationView extends AbstractView{
-  #element = null;
 
   get template() {
     return createEditPointDestinationTemplate();

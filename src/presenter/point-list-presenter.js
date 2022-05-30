@@ -1,15 +1,15 @@
 import { render, RenderPosition } from '@/render';
 
 import PointListView from '@view/point-list-view.js';
-import PointListItemView from '@view/point-list-item-view.js';
+import PointListItemView from '../view/point-list-item-view';
 import EditPointView from '@view/edit-point/edit-point-view.js';
 
-export default class PointListPresenter{
+export default class PointListPresenter {
   #pointListView = new PointListView();
-  // #pointListItemView = new PointListItemView();
+  #pointListItemView = null;
   #editPointView = null;
   #pointModel = null;
-  #points = null;
+  #points = [];
 
   init = (container) => {
     const {mainTripEventsElement, pointModel} = container;
@@ -24,7 +24,8 @@ export default class PointListPresenter{
     this.#points.forEach((point) => {
       render(new PointListItemView(point), this.#pointListView.element);
     });
-
+    //render(this.#pointListItemView.element, this.#pointListView.element);
     render(this.#pointListView, mainTripEventsElement);
+
   };
 }

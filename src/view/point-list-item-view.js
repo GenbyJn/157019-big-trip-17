@@ -1,8 +1,8 @@
 import AbstractView from '@view/abstract-view';
 import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
-const createTripPointListItemTemplate = (point) => {
-  const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
+const createPointListItemTemplate = (point) => {
+  const { basePrice, dateFrom, dateTo, isFavorite, type } = point;
 
   const eventDuration = formatDuration(dateTo - dateFrom);
 
@@ -43,15 +43,15 @@ const createTripPointListItemTemplate = (point) => {
   );
 };
 
-export default class TripPointListItemView extends AbstractView {
-  #element = null;
+export default class PointListItemView extends AbstractView {
+  #point = null;
 
   constructor(point) {
     super();
-    this.point = point;
+    this.#point = point;
   }
 
   get template() {
-    return createTripPointListItemTemplate(this.point);
+    return createPointListItemTemplate(this.#point);
   }
 }
