@@ -14,6 +14,7 @@ const filtersPresenter = new FiltersPresenter();
 const sortPresenter = new SortPresenter();
 const pointListPresenter = new PointListPresenter();
 
+
 infoPresenter.init({headerTripMainElement});
 filtersPresenter.init({headerMainFiltersElement});
 sortPresenter.init({mainTripEventsElement});
