@@ -7,28 +7,23 @@ import EditPointView from '@view/edit-point/edit-point-view';
 import ListEmptyView from '@view/list-empty-view';
 
 export default class PointListPresenter {
+  #mainPointsElement = null;
+  #pointModel = null;
+
   #pointListView = new PointListView();
   #editPointView = null;
-  #pointModel = null;
   #points = [];
 
-  init (container) {
-    const { mainTripEventsElement, pointModel } = container;
-
+  constructor(mainPointsElement, pointModel) {
+    this.#mainPointsElement = mainPointsElement;
     this.#pointModel = pointModel;
+
+  }
+
+  init () {
     this.#points = [...this.#pointModel.points];
 
-    if (this.#points.length === 0 ) {
-      render(new ListEmptyView(),  mainTripEventsElement);
-    }
-
-
-    this.#points.forEach((point)=> {
-      this.#renderPoint(point);
-    });
-
-    render(this.#pointListView, mainTripEventsElement);
-
+    this.#renderPointList();
   }
 
   #renderPoint = (point) => {
@@ -70,4 +65,15 @@ export default class PointListPresenter {
     render(pointItemView, this.#pointListView.element);
   };
 
+  #renderPointList = () => {
+    if (this.#points.length === 0 ) {
+      render(new ListEmptyView(),  this.#mainPointsElement);
+    }
+
+    this.#points.forEach((point)=> {
+      this.#renderPoint(point);
+    });
+
+    render(this.#pointListView, this.#mainPointsElement);
+  };
 }
