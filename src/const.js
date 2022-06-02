@@ -13,8 +13,8 @@ const POINT_TYPES = [
 const POINT_DESTINATIONS = [
   'Moon',
   'Mars',
-  'Фобос',
-  'Деймос',
+  'Phobos',
+  'Deimos',
 ];
 
 export {
