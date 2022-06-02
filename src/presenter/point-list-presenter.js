@@ -7,7 +7,6 @@ import ListEmptyView from '@view/list-empty-view';
 
 export default class PointListPresenter {
   #pointListView = new PointListView();
-  #listEmptyView = new ListEmptyView();
   #editPointView = null;
   #pointModel = null;
   #points = [];
@@ -27,9 +26,9 @@ export default class PointListPresenter {
     //console.log(this.#listEmptyView.element)
     render(this.#pointListView, mainTripEventsElement);
 
-    // if (this.#points.length !== 0 ) {
-    //   this.#pointListView.element.replaceChild(this.#listEmptyView.element, this.#pointListView.element);
-    // }
+    if (this.#points.length !== 0 ) {
+      this.#pointListView.element.replaceChild(new ListEmptyView.element, this.#pointListView.element);
+    }
   }
 
 
