@@ -25,7 +25,7 @@ const createPointListItemTemplate = (point) => {
           —
           <time class="event__end-time" datetime="${dateTo.toISOString()}">${formatTimeDate(dateTo)}</time>
         </p>
-        <p class="event__duration">${eventDuration}H</p>
+        <p class="event__duration">${eventDuration}</p>
       </div>
       <p class="event__price">
         €&nbsp;<span class="event__price-value">${basePrice}</span>
