@@ -11,8 +11,8 @@ export default class PointListPresenter {
   #pointModel = null;
   #points = [];
 
-  init = (container) => {
-    const {mainTripEventsElement, pointModel} = container;
+  init (container) {
+    const { mainTripEventsElement, pointModel } = container;
 
     this.#pointModel = pointModel;
     this.#points = [...this.#pointModel.points];
@@ -21,11 +21,19 @@ export default class PointListPresenter {
 
     render(this.#editPointView, this.#pointListView.element, RenderPosition.AFTERBEGIN);
 
-    this.#points.forEach((point) => {
-      render(new PointListItemView(point), this.#pointListView.element);
-    });
-    //render(this.#pointListItemView.element, this.#pointListView.element);
+    for (let i = 0; i < this.#points.length; i++) {
+      this.#renderEditPoint(this.#points[i]);
+      // render(new PointListItemView(point), this.#pointListView.element);
+    }
+
     render(this.#pointListView, mainTripEventsElement);
 
+  }
+
+  #renderEditPoint = (point) => {
+    const editPointComponent = new PointListItemView(point);
+
+    render(editPointComponent, this.#pointListView.element);
   };
+
 }
