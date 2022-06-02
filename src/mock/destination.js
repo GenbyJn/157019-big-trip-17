@@ -3,9 +3,7 @@ import { POINT_DESTINATIONS } from '../const';
 
 const generateDestinations = () =>  POINT_DESTINATIONS[randomizeInteger(0, POINT_DESTINATIONS.length - 1)];
 
-const generateDestination = ({
-  name = 'Chamonix',
-} = {}) => ({
+const generateDestination = () => ({
   description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
   name: generateDestinations(),
   pictures: [

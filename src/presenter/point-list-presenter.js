@@ -8,7 +8,6 @@ import ListEmptyView from '@view/list-empty-view';
 
 export default class PointListPresenter {
   #pointListView = new PointListView();
-  #listEmptyView = new ListEmptyView();
   #editPointView = null;
   #pointModel = null;
   #points = [];
@@ -19,24 +18,18 @@ export default class PointListPresenter {
     this.#pointModel = pointModel;
     this.#points = [...this.#pointModel.points];
 
-    // if (this.#points.length !== 0 ) {
-    //   mainTripEventsElement.removeChild(this.#pointListView.element);
-    // }
+    if (this.#points.length === 0 ) {
+      render(new ListEmptyView(),  mainTripEventsElement);
+    }
 
 
     this.#points.forEach((point)=> {
       this.#renderPoint(point);
     });
 
-    //console.log(this.#listEmptyView.element)
     render(this.#pointListView, mainTripEventsElement);
 
   }
-
-  // #renderEmptyPointList = () => {
-  //   const listEmptyView = new ListEmptyView();
-
-  // };
 
   #renderPoint = (point) => {
     const pointItemView = new PointListItemView(point);
