@@ -10,6 +10,15 @@ const POINT_TYPES = [
   'restaurant',
 ];
 
+const POINT_DESTINATIONS = [
+  'Moon',
+  'Mars',
+  'Фобос',
+  'Деймос',
+];
+
 export {
   POINT_TYPES,
+  POINT_DESTINATIONS
 };
+

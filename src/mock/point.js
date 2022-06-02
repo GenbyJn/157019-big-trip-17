@@ -44,4 +44,5 @@ const generatePoints = () => [
   })
 ];
 
-export { generatePoint, generatePoints };
+export { generatePoint, generatePoints, generateDestination };
+
