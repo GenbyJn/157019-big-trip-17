@@ -14,13 +14,13 @@ export default class PointListPresenter {
   #editPointView = null;
   #points = [];
 
-  constructor(mainPointsElement, pointModel) {
-    this.#mainPointsElement = mainPointsElement;
+  constructor(pointModel) {
     this.#pointModel = pointModel;
 
   }
 
-  init () {
+  init (mainPointsElement) {
+    this.#mainPointsElement = mainPointsElement;
     this.#points = [...this.#pointModel.points];
 
     this.#renderPointList();

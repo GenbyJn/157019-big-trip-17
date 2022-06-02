@@ -16,8 +16,8 @@ export default class TripSortPresenter {
   #sortOfferView = new SortOfferView();
 
   init = (container) => {
-    const {mainTripEventsElement} = container;
-    render(this.#sortView, mainTripEventsElement, RenderPosition.BEFOREEND);
+    const {mainPointsElement} = container;
+    render(this.#sortView, mainPointsElement, RenderPosition.BEFOREEND);
     render(this.#sortDayView, this.#sortView.element);
     render(this.#sortPointView, this.#sortView.element);
     render(this.#sortTimeView, this.#sortView.element);

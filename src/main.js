@@ -13,11 +13,11 @@ const pointModel = new PointModel();
 const infoPresenter = new InfoPresenter();
 const filtersPresenter = new FiltersPresenter();
 const sortPresenter = new SortPresenter();
-const pointListPresenter = new PointListPresenter();
+const pointListPresenter = new PointListPresenter(pointModel);
 
 
 infoPresenter.init({headerTripMainElement});
 filtersPresenter.init({headerMainFiltersElement});
 sortPresenter.init({mainPointsElement});
-pointListPresenter.init({mainPointsElement, pointModel});
+pointListPresenter.init(mainPointsElement);
 
