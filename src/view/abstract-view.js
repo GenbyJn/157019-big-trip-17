@@ -1,21 +1,28 @@
 import { createElement } from '@/render.js';
 
 export default class AbstractView {
-  element = null;
+  #element = null;
+  _callback = {};
 
-  getTemplate() {
-    return '';
+  constructor() {
+    if (new.target === AbstractView) {
+      throw new Error('Can\'t instantiate AbstractView, only concrete one.');
+    }
   }
 
-  getElement() {
-    if (this.element === null) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (this.#element === null) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
+  }
+
+  get template() {
+    throw new Error('Abstract method not implemented: get template');
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

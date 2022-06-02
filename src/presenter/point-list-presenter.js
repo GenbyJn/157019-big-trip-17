@@ -1,28 +1,68 @@
-import { render, RenderPosition } from '@/render';
+import { render } from '@/render';
 
 import PointListView from '@view/point-list-view.js';
-import PointListItemView from '@view/point-list-item-view.js';
+import PointListItemView from '../view/point-list-item-view';
 import EditPointView from '@view/edit-point/edit-point-view.js';
 
-export default class PointListPresenter{
-  pointListView = new PointListView();
-  pointListItemView = new PointListItemView();
-  editPointView = null;
+export default class PointListPresenter {
+  #pointListView = new PointListView();
+  #editPointView = null;
+  #pointModel = null;
+  #points = [];
 
-  init = (container) => {
-    const {mainTripEventsElement, tripPointModel} = container;
+  init (container) {
+    const { mainTripEventsElement, pointModel } = container;
 
-    this.tripPointModel = tripPointModel;
-    this.points = [...this.tripPointModel.getPoints()];
+    this.#pointModel = pointModel;
+    this.#points = [...this.#pointModel.points];
 
-    this.editPointView = new EditPointView(this.points[0]);
+    this.#editPointView = new EditPointView(this.#points[0]);
 
-    render(this.editPointView, this.pointListView.getElement(), RenderPosition.AFTERBEGIN);
+    for (let i = 0; i < this.#points.length; i++) {
+      this.#renderEditPoint(this.#points[i]);
+    }
 
-    this.points.forEach((point) => {
-      render(new PointListItemView(point), this.pointListView.getElement());
+    render(this.#pointListView, mainTripEventsElement);
+
+  }
+
+  #renderEditPoint = (point) => {
+    const pointItemView = new PointListItemView(point);
+    const editPointView = new EditPointView(point);
+
+    const replacePointToEditPoint = () => {
+      this.#pointListView.element.replaceChild(editPointView.element, pointItemView.element);
+    };
+
+    const replaceEditPointToPoint = () => {
+      this.#pointListView.element.replaceChild(pointItemView.element, editPointView.element);
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceEditPointToPoint();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+    pointItemView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replacePointToEditPoint();
+      document.addEventListener('keydown', onEscKeyDown);
     });
 
-    render(this.pointListView, mainTripEventsElement);
+    editPointView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replaceEditPointToPoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
+
+    editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      replaceEditPointToPoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
+
+    render(pointItemView, this.#pointListView.element);
   };
+
 }

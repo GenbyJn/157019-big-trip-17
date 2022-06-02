@@ -1,4 +1,4 @@
-import { randomInteger } from '../util';
+import { randomInteger } from '../mock/random';
 
 const generateDestination = ({
   name = 'Chamonix',

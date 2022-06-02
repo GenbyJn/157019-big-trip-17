@@ -1,24 +1,11 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
-const createSaveButtonTemplate = () => (
-  '<button class="event__save-btn btn btn--blue" type="submit">Save</button>'
-);
+const createSaveButtonTemplate = () =>  '<button class="event__save-btn btn btn--blue" type="submit">Save</button>';
 
-export default class SaveButtonView {
-  getTemplate() {
+export default class SaveButtonView extends AbstractView {
+
+  get template() {
     return createSaveButtonTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
 

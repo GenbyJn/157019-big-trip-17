@@ -1,4 +1,4 @@
-import { createElement } from '@/render.js';
+import AbstractView from '@view/abstract-view';
 
 const createEditPointDetailsOffersTemplate = () => (
   `<section class="event__section  event__section--offers">
@@ -48,21 +48,10 @@ const createEditPointDetailsOffersTemplate = () => (
   </section>`
 );
 
-export default class EditPointDetailsOffersView {
-  getTemplate() {
+export default class EditPointDetailsOffersView extends AbstractView{
+
+  get template() {
     return createEditPointDetailsOffersTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
 

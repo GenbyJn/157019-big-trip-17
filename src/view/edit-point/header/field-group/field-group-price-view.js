@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createGroupPriceTemplate = () => (
   `<div class="event__field-group  event__field-group--price">
@@ -10,20 +10,9 @@ const createGroupPriceTemplate = () => (
   </div>`
 );
 
-export default class GroupPriceView {
-  getTemplate() {
+export default class GroupPriceView extends AbstractView {
+
+  get template() {
     return createGroupPriceTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

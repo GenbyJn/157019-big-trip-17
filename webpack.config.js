@@ -29,6 +29,9 @@ module.exports = {
       '@': path.resolve(__dirname, 'src'),
       '@view': path.resolve(__dirname, 'src/view'),
       '@edit-point-header': path.resolve(__dirname, 'src/view/edit-point/header'),
+      '@filters': path.resolve(__dirname, 'src/view/filters'),
+      '@info': path.resolve(__dirname, 'src/view/info'),
+      '@sort': path.resolve(__dirname, 'src/view/sort'),
       '@presenter': path.resolve(__dirname, 'src/presenter'),
     },
   }

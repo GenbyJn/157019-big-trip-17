@@ -1,29 +1,19 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createResetButtonTemplate = ({ text }) => (
   `<button class="event__reset-btn" type="reset">${text}</button>`
 );
 
-export default class ResetButtonView {
+export default class ResetButtonView extends AbstractView {
+
   _state = {};
 
   constructor({ resetButtonText: text }) {
+    super();
     this._state = { text };
   }
 
-  getTemplate() {
+  get template() {
     return createResetButtonTemplate(this._state);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

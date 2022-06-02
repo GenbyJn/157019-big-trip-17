@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createRollupButtonTemplate = () => (
   `<button class="event__rollup-btn" type="button">
@@ -6,20 +6,9 @@ const createRollupButtonTemplate = () => (
   </button>`
 );
 
-export default class RollupButtonView {
-  getTemplate() {
+export default class RollupButtonView extends AbstractView {
+
+  get template() {
     return createRollupButtonTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

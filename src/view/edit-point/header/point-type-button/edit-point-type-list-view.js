@@ -1,4 +1,4 @@
-import { createElement } from '@/render';
+import AbstractView from '@view/abstract-view';
 
 const createTypeItemTemplate = ({ id, text, isChecked = false } = {}) => (
   `<div class="event__type-item">
@@ -23,30 +23,19 @@ const createEditPointTypeListTemplate = ({ types }) => (
   </div>`
 );
 
-export default class EditPointTypeListView {
+export default class EditPointTypeListView extends AbstractView {
   _state = {};
 
   constructor({ types }) {
+    super();
     this._state = { types };
 
-    this.getElement().querySelector('.event__type-group')
+    this.element.querySelector('.event__type-group')
       .addEventListener('change', this.typeChangeHandler);
   }
 
-  getTemplate() {
+  get template() {
     return createEditPointTypeListTemplate(this._state);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 
   typeChangeHandler(evt) {

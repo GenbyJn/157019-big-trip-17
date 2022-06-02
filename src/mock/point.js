@@ -1,5 +1,5 @@
 import { generateDestination } from './destination';
-import { randomInteger } from '@/util';
+import { randomInteger } from './random';
 import { POINT_TYPES } from '@/const';
 
 const generatePointType = () =>
