@@ -1,32 +1,32 @@
 import { render } from '@/render';
+import { isEscapeKey } from '@/util/util';
 
-import PointListView from '@view/point-list-view.js';
-import PointListItemView from '../view/point-list-item-view';
-import EditPointView from '@view/edit-point/edit-point-view.js';
+import PointListView from '@view/point-list-view';
+import PointListItemView from '@view/point-list-item-view';
+import EditPointView from '@view/edit-point/edit-point-view';
+import ListEmptyView from '@view/list-empty-view';
 
 export default class PointListPresenter {
+  #mainPointsElement = null;
+  #pointModel = null;
+
   #pointListView = new PointListView();
   #editPointView = null;
-  #pointModel = null;
   #points = [];
 
-  init (container) {
-    const { mainTripEventsElement, pointModel } = container;
-
+  constructor(pointModel) {
     this.#pointModel = pointModel;
-    this.#points = [...this.#pointModel.points];
-
-    this.#editPointView = new EditPointView(this.#points[0]);
-
-    for (let i = 0; i < this.#points.length; i++) {
-      this.#renderEditPoint(this.#points[i]);
-    }
-
-    render(this.#pointListView, mainTripEventsElement);
 
   }
 
-  #renderEditPoint = (point) => {
+  init (mainElement) {
+    this.#mainPointsElement = mainElement;
+    this.#points = [...this.#pointModel.points];
+
+    this.#renderPointList();
+  }
+
+  #renderPoint = (point) => {
     const pointItemView = new PointListItemView(point);
     const editPointView = new EditPointView(point);
 
@@ -39,7 +39,7 @@ export default class PointListPresenter {
     };
 
     const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
+      if (isEscapeKey(evt)) {
         evt.preventDefault();
         replaceEditPointToPoint();
         document.removeEventListener('keydown', onEscKeyDown);
@@ -65,4 +65,16 @@ export default class PointListPresenter {
     render(pointItemView, this.#pointListView.element);
   };
 
+  #renderPointList = () => {
+    if (this.#points.length === 0 ) {
+      render(new ListEmptyView(),  this.#mainPointsElement);
+      return;
+    }
+
+    this.#points.forEach((point)=> {
+      this.#renderPoint(point);
+    });
+
+    render(this.#pointListView, this.#mainPointsElement);
+  };
 }

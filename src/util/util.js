@@ -1,4 +1,9 @@
 const camalizeFirstCharacter = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
-export { camalizeFirstCharacter };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {
+  camalizeFirstCharacter,
+  isEscapeKey
+};
 

@@ -30,7 +30,6 @@
     "node": "16"
   },
   "dependencies": {
-    "dayjs": "^1.11.2",
-    "dayjs-webpack-plugin": "^0.0.2"
+    "dayjs": "1.11.2"
   }
 }
