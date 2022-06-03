@@ -8,15 +8,6 @@ export default class SaveButtonView extends AbstractView {
     return createSaveButtonTemplate();
   }
 
-  setSubmitHandler = (callback) => {
-    this._callback.submit = callback;
-    this.element.addEventListener('submit', this.#onSubmit);
-  };
-
-  #onSubmit = (evt) => {
-    evt.preventDefault();
-    this._callback.submit();
-  };
 }
 
 

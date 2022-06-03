@@ -63,6 +63,22 @@ export default class EditPointView extends useChildrenView(AbstractView) {
   }
 
   setSubmitHandler = (callback) => {
-    this._children.saveButton.setSubmitHandler(callback);
+    this._callback.submit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#onSubmit);
   };
+
+  #onSubmit = (evt) => {
+    evt.preventDefault();
+    this._callback.submit();
+  };
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
+  };
+
+  #onClick = () => {
+    this._callback.click();
+  };
+
 }

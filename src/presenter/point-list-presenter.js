@@ -46,21 +46,20 @@ export default class PointListPresenter {
       }
     };
 
-    pointItemView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    // pointItemView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    //   replacePointToEditPoint();
+    //   document.addEventListener('keydown', onEscKeyDown);
+    // });
+
+    pointItemView.setClickHandler(() => {
       replacePointToEditPoint();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    editPointView.setClickHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
-
-    // editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
-    //   evt.preventDefault();
-    //   replaceEditPointToPoint();
-    //   document.removeEventListener('keydown', onEscKeyDown);
-    // });
 
     editPointView.setSubmitHandler(() => {
       replaceEditPointToPoint();
