@@ -68,6 +68,7 @@ export default class PointListPresenter {
   #renderPointList = () => {
     if (this.#points.length === 0 ) {
       render(new ListEmptyView(),  this.#mainPointsElement);
+      return;
     }
 
     this.#points.forEach((point)=> {

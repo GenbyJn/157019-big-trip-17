@@ -15,7 +15,7 @@ export default class TripSortPresenter {
   #sortPriceView = new SortPriceView();
   #sortOfferView = new SortOfferView();
 
-  init = (container) => {
+  init (container) {
     const {mainPointsElement} = container;
     render(this.#sortView, mainPointsElement, RenderPosition.BEFOREEND);
     render(this.#sortDayView, this.#sortView.element);
@@ -23,5 +23,5 @@ export default class TripSortPresenter {
     render(this.#sortTimeView, this.#sortView.element);
     render(this.#sortPriceView, this.#sortView.element);
     render(this.#sortOfferView, this.#sortView.element);
-  };
+  }
 }
