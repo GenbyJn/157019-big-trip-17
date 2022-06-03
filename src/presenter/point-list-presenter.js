@@ -46,11 +46,6 @@ export default class PointListPresenter {
       }
     };
 
-    // pointItemView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-    //   replacePointToEditPoint();
-    //   document.addEventListener('keydown', onEscKeyDown);
-    // });
-
     pointItemView.setClickHandler(() => {
       replacePointToEditPoint();
       document.addEventListener('keydown', onEscKeyDown);
