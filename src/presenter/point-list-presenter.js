@@ -56,8 +56,13 @@ export default class PointListPresenter {
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    // editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
+    //   evt.preventDefault();
+    //   replaceEditPointToPoint();
+    //   document.removeEventListener('keydown', onEscKeyDown);
+    // });
+
+    editPointView.setSubmitHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });

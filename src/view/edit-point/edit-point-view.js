@@ -62,7 +62,7 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     return createEditPointTemplate(this._state);
   }
 
-  setTypeChangeHandler(callback) {
-    this._children.header.setChangeHandler(callback);
-  }
+  setSubmitHandler = (callback) => {
+    this._children.saveButton.setSubmitHandler(callback);
+  };
 }
