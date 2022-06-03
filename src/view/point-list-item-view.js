@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
 const createPointListItemTemplate = (point) => {
@@ -54,4 +54,14 @@ export default class PointListItemView extends AbstractView {
   get template() {
     return createPointListItemTemplate(this.#point);
   }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
+  };
+
+  #onClick = () => {
+    this._callback.click();
+  };
+
 }

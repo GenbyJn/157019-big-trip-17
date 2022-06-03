@@ -1,4 +1,4 @@
-import { render, RenderPosition } from '@/render.js';
+import { render, RenderPosition } from '../framework/render';
 
 import SortView from '@sort/sort-view.js';
 import SortDayView from '@sort/sort-day-view.js';

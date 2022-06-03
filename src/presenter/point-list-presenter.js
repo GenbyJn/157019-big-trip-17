@@ -1,4 +1,4 @@
-import { render } from '@/render';
+import { render } from '../framework/render';
 import { isEscapeKey } from '@/util/util';
 
 import PointListView from '@view/point-list-view';
@@ -46,18 +46,17 @@ export default class PointListPresenter {
       }
     };
 
-    pointItemView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    pointItemView.setClickHandler(() => {
       replacePointToEditPoint();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    editPointView.setClickHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    editPointView.setSubmitHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });

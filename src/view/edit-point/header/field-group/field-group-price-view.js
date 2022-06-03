@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createGroupPriceTemplate = () => (
   `<div class="event__field-group  event__field-group--price">

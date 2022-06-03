@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createRollupButtonTemplate = () => (
   `<button class="event__rollup-btn" type="button">

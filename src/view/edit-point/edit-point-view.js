@@ -1,5 +1,5 @@
-import AbstractView from '@view/abstract-view';
-import { useChildrenView } from '@view/use-children-view';
+import AbstractView from '@/framework/view/abstract-view';
+import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
 import { POINT_TYPES } from '@/const';
 
@@ -62,7 +62,23 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     return createEditPointTemplate(this._state);
   }
 
-  setTypeChangeHandler(callback) {
-    this._children.header.setChangeHandler(callback);
-  }
+  setSubmitHandler = (callback) => {
+    this._callback.submit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#onSubmit);
+  };
+
+  #onSubmit = (evt) => {
+    evt.preventDefault();
+    this._callback.submit();
+  };
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
+  };
+
+  #onClick = () => {
+    this._callback.click();
+  };
+
 }

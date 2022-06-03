@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createInfoTemplate = () => (
   '<section class="trip-main__trip-info  trip-info"></section>'
