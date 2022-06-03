@@ -19,8 +19,8 @@ export default class PointListPresenter {
 
   }
 
-  init (mainPointsElement) {
-    this.#mainPointsElement = mainPointsElement;
+  init (mainElement) {
+    this.#mainPointsElement = mainElement;
     this.#points = [...this.#pointModel.points];
 
     this.#renderPointList();
