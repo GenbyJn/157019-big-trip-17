@@ -1,4 +1,4 @@
-import { render } from '@/render';
+import { render } from '../framework/render';
 import { isEscapeKey } from '@/util/util';
 
 import PointListView from '@view/point-list-view';

@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createEditPointDestinationTemplate = () => (
   `<section class="event__section  event__section--destination">

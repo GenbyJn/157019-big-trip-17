@@ -1,5 +1,5 @@
-import AbstractView from '@view/abstract-view';
-import { useChildrenView } from '@view/use-children-view';
+import AbstractView from '@/framework/view/abstract-view';
+import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
 import { POINT_TYPES } from '@/const';
 

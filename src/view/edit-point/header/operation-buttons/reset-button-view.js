@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createResetButtonTemplate = ({ text }) => (
   `<button class="event__reset-btn" type="reset">${text}</button>`

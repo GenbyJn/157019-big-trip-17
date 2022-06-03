@@ -1,4 +1,4 @@
-import AbstractView from '@view/abstract-view';
+import AbstractView from '@/framework/view/abstract-view';
 import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
 const createPointListItemTemplate = (point) => {
