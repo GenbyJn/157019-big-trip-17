@@ -55,7 +55,7 @@ export default class PointListItemView extends AbstractView {
     return createPointListItemTemplate(this.#point);
   }
 
-  setClickHandler = (callback) => {
+  setRollupButtonClickHandler = (callback) => {
     this._callback.click = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
   };
