@@ -46,12 +46,12 @@ export default class PointListPresenter {
       }
     };
 
-    pointItemView.setClickHandler(() => {
+    pointItemView.setRollupButtonClickHandler(() => {
       replacePointToEditPoint();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.setClickHandler(() => {
+    editPointView.setRollupButtonClickHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });

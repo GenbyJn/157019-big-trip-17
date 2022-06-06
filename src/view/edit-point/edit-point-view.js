@@ -72,7 +72,7 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this._callback.submit();
   };
 
-  setClickHandler = (callback) => {
+  setRollupButtonClickHandler = (callback) => {
     this._callback.click = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
   };
