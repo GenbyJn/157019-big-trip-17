@@ -1,4 +1,4 @@
-import { render } from '../framework/render';
+import { render, replace } from '../framework/render';
 import { isEscapeKey } from '@/util/util';
 
 import PointListView from '@view/point-list-view';
@@ -27,15 +27,15 @@ export default class PointListPresenter {
   }
 
   #renderPoint = (point) => {
-    const pointItemView = new PointListItemView(point);
-    const editPointView = new EditPointView(point);
+    const pointItemComponent = new PointListItemView(point);
+    const editPointComponent = new EditPointView(point);
 
     const replacePointToEditPoint = () => {
-      this.#pointListView.element.replaceChild(editPointView.element, pointItemView.element);
+      replace(editPointComponent, pointItemComponent);
     };
 
     const replaceEditPointToPoint = () => {
-      this.#pointListView.element.replaceChild(pointItemView.element, editPointView.element);
+      replace(pointItemComponent, editPointComponent);
     };
 
     const onEscKeyDown = (evt) => {
@@ -46,22 +46,22 @@ export default class PointListPresenter {
       }
     };
 
-    pointItemView.setRollupButtonClickHandler(() => {
+    pointItemComponent.setRollupButtonClickHandler(() => {
       replacePointToEditPoint();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.setRollupButtonClickHandler(() => {
+    editPointComponent.setRollupButtonClickHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.setSubmitHandler(() => {
+    editPointComponent.setSubmitHandler(() => {
       replaceEditPointToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    render(pointItemView, this.#pointListView.element);
+    render(pointItemComponent, this.#pointListView.element);
   };
 
   #renderPointList = () => {
