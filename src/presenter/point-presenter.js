@@ -1,4 +1,4 @@
-import { render, replace } from '../framework/render';
+import { render, replace, remove } from '../framework/render';
 
 import { isEscapeKey } from '@/util/util';
 import PointListItemView from '@view/point-list-item-view';
@@ -19,6 +19,9 @@ export default class PointPresenter {
   init = (point) => {
     this.#point = point;
 
+    const prevPointItemComponent = this.#pointItemComponent;
+    const prevEditPointComponent = this.#editPointComponent;
+
     this.#pointItemComponent = new PointListItemView(point);
     this.#editPointComponent = new EditPointView(point);
 
@@ -26,7 +29,26 @@ export default class PointPresenter {
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleEditRollupClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
 
-    render(this.#pointItemComponent, this.#pointListView);
+    if (prevEditPointComponent === null || prevEditPointComponent === null) {
+      render(this.#pointItemComponent, this.#pointListView);
+      return;
+    }
+
+    if (this.#pointListView.contains(prevPointItemComponent.element)) {
+      replace(this.#pointItemComponent, prevPointItemComponent);
+    }
+
+    if (this.#pointListView.contains(prevEditPointComponent.element)) {
+      replace(this.#editPointComponent, prevEditPointComponent);
+    }
+
+    remove(prevPointItemComponent);
+    remove(prevEditPointComponent);
+  };
+
+  destroy = () => {
+    remove(this.#pointItemComponent);
+    remove(this.#editPointComponent);
   };
 
   #replacePointToEditPoint = () => {
@@ -58,6 +80,7 @@ export default class PointPresenter {
   #handleFormSubmit = () => {
     this.#replaceEditPointToPoint();
   };
+
 }
 
 
