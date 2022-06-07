@@ -10,7 +10,6 @@ export default class PointListPresenter {
   #pointModel = null;
 
   #pointListView = new PointListView();
-  #editPointView = null;
   #points = [];
 
   constructor(pointModel) {
