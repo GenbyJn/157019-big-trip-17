@@ -26,7 +26,7 @@ export default class PointListPresenter {
   }
 
   #handlePointChange = (updatePoint) => {
-    this.#pointListView = updateItem(this.#pointListView, updatePoint);
+    this.#points = updateItem(this.#points, updatePoint);
     this.#pointPresenter.get(updatePoint.id).init(updatePoint);
   };
 

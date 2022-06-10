@@ -7,7 +7,7 @@ const updateItem = (items, update) => {
 
   if (index === -1) {
     return items;
-}
+  }
 
   return [
     ...items.slice(0, index),
