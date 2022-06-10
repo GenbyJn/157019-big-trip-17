@@ -30,8 +30,12 @@ export default class PointListPresenter {
     this.#pointPresenter.get(updatePoint.id).init(updatePoint);
   };
 
+  #handleModeChange =() => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+  };
+
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#pointListView.element, this.#handlePointChange);
+    const pointPresenter = new PointPresenter(this.#pointListView.element, this.#handlePointChange, this.#handleModeChange);
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
