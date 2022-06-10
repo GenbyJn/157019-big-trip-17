@@ -88,6 +88,8 @@ export default class PointListPresenter {
       return;
     }
     this.#sortPoints(sortType);
+    this.#clearPointList();
+    this.#renderPointList();
   };
 
   #clearPointList = () => {
