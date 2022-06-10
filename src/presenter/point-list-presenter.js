@@ -25,6 +25,11 @@ export default class PointListPresenter {
     this.#renderPointList();
   }
 
+  #handlePointChange = (updatePoint) => {
+    this.#pointListView = updateItem(this.#pointListView, updatePoint);
+    this.#pointPresenter.get(updatePoint.id).init(updatePoint);
+  };
+
   #renderPoint = (point) => {
     const pointPresenter = new PointPresenter(this.#pointListView.element, this.#handlePointChange);
     pointPresenter.init(point);
@@ -42,11 +47,6 @@ export default class PointListPresenter {
     });
 
     render(this.#pointListView, this.#mainPointsElement);
-  };
-
-  #handlePointChange = (updatePoint) => {
-    this.#pointListView = updateItem(this.#pointListView, updatePoint);
-    this.#pointPresenter.get(updatePoint.id).init(updatePoint);
   };
 
   #clearPointList = () => {

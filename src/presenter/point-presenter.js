@@ -28,6 +28,7 @@ export default class PointPresenter {
     this.#editPointComponent = new EditPointView(point);
 
     this.#pointItemComponent.setRollupButtonClickHandler(this.#handlePointRollupClick);
+    this.#pointItemComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleEditRollupClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
 
@@ -79,7 +80,8 @@ export default class PointPresenter {
     this.#replaceEditPointToPoint();
   };
 
-  #handleFormSubmit = () => {
+  #handleFormSubmit = (point) => {
+    this.#changeData(point);
     this.#replaceEditPointToPoint();
   };
 
