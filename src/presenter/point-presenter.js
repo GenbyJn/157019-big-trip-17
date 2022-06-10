@@ -6,14 +6,16 @@ import EditPointView from '@view/edit-point/edit-point-view';
 
 export default class PointPresenter {
   #pointListView = null;
+  #changeData = null;
 
   #pointItemComponent = null;
   #editPointComponent = null;
 
   #point = null;
 
-  constructor(pointListView) {
+  constructor(pointListView, changeData) {
     this.#pointListView = pointListView;
+    this.#changeData = changeData;
   }
 
   init = (point) => {
@@ -79,6 +81,10 @@ export default class PointPresenter {
 
   #handleFormSubmit = () => {
     this.#replaceEditPointToPoint();
+  };
+
+  #handleFavoriteClick = () => {
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 
 }
