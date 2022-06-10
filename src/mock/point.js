@@ -14,7 +14,7 @@ const generatePoint = ({
   pointDestination = generateDestination().name,
 } = {}) => ({
   basePrice,
-  dateFrom: new Date('2019-07-10T22:55:56.845Z'),
+  dateFrom: new Date('2019-07-10T19:30:56.845Z'),
   dateTo: new Date('2019-07-11T11:22:13.375Z'),
   destination: generateDestination(),
   pointDestination,
@@ -37,6 +37,8 @@ const generatePoints = () => [
   }),
   generatePoint({
     id: '2',
+    dateFrom: new Date('2019-07-19T19:55:56.845Z'),
+    dateTo: new Date('2019-07-11T11:22:13.375Z'),
     basePrice: 200,
     isFavorite: true
   }),

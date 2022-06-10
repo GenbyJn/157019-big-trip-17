@@ -1,9 +1,12 @@
-import { render } from '../framework/render';
+import { render, RenderPosition } from '../framework/render';
 
 import PointListView from '@view/point-list-view';
 import PointPresenter from './point-presenter';
 import ListEmptyView from '@view/list-empty-view';
+import SortView from '@sort/sort-view.js';
 import { updateItem } from '../util/util';
+import { SortType } from '@/const';
+import { sortDateUp, sortDateDown } from '../util/date';
 
 export default class PointListPresenter {
   #mainPointsElement = null;
@@ -12,6 +15,10 @@ export default class PointListPresenter {
   #pointListView = new PointListView();
   #points = [];
   #pointPresenter = new Map();
+  #sortComponent = new SortView();
+  #currentSortType = SortType.DEFAULT;
+  #sourcedPoints = [];
+
 
   constructor(pointModel) {
     this.#pointModel = pointModel;
@@ -22,7 +29,10 @@ export default class PointListPresenter {
     this.#mainPointsElement = mainElement;
     this.#points = [...this.#pointModel.points];
 
+    this.#sourcedPoints = [...this.#pointModel.points];
+
     this.#renderPointList();
+    this.#renderSort();
   }
 
   #handlePointChange = (updatePoint) => {
@@ -51,6 +61,33 @@ export default class PointListPresenter {
     });
 
     render(this.#pointListView, this.#mainPointsElement);
+  };
+
+  #renderSort = () => {
+    render(this.#sortComponent, this.#mainPointsElement, RenderPosition.AFTERBEGIN);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
+  };
+
+  #sortPoints = (sortType) => {
+    switch (sortType) {
+      case SortType.DATE_UP:
+        this.#points.sort(sortDateUp);
+        break;
+      case SortType.DATE_DOWN:
+        this.#points.sort(sortDateDown);
+        break;
+      default:
+        this.#points = [...this.#sourcedPoints];
+    }
+
+    this.#currentSortType = sortType;
+  };
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortPoints(sortType);
   };
 
   #clearPointList = () => {
