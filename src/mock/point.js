@@ -2,6 +2,7 @@ import { generateDestination } from './destination';
 import { randomizeInteger } from './random';
 import { POINT_TYPES } from '@/mock/const';
 import { nanoid } from 'nanoid';
+
 const generatePointType = () =>
   POINT_TYPES[randomizeInteger(0, POINT_TYPES.length - 1)];
 
@@ -9,7 +10,6 @@ const generatePoint = ({
   type = generatePointType(),
   // id = '0',
   basePrice = 1000,
-  isFavorite = false,
   offers = [],
   pointDestination = generateDestination().name,
 } = {}) => ({
@@ -19,7 +19,7 @@ const generatePoint = ({
   destination: generateDestination(),
   pointDestination,
   id: nanoid(),
-  isFavorite,
+  isFavorite: false,
   offers,
   type
 });

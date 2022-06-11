@@ -6,7 +6,7 @@ import ListEmptyView from '@view/list-empty-view';
 import SortView from '@/view/sort-view.js';
 import { updateItem } from '@/util/util';
 import { SortType } from '@/mock/const';
-import { sortDateUp, sortDateDown } from '../util/date';
+import { sortDate, sortTime } from '../util/date';
 
 export default class PointListPresenter {
   #mainPointsElement = null;
@@ -62,10 +62,10 @@ export default class PointListPresenter {
   #sortPoints = (sortType) => {
     switch (sortType) {
       case SortType.DATE_UP:
-        this.#points.sort(sortDateUp);
+        this.#points.sort(sortDate);
         break;
       case SortType.DATE_DOWN:
-        this.#points.sort(sortDateDown);
+        this.#points.sort(sortTime);
         break;
       default:
         this.#points = [...this.#sourcedPoints];

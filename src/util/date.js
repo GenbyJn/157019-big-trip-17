@@ -19,16 +19,16 @@ const getWeightForNullDate = (dateA, dateB) => {
   return null;
 };
 
-const sortDateUp = (taskA, taskB) => {
-  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+const sortDate = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
 
-  return weight ?? dayjs(taskA.dueDate).diff(dayjs(taskB.dueDate));
+  return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 };
 
-const sortDateDown = (taskA, taskB) => {
-  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+const sortTime = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
 
-  return weight ?? dayjs(taskB.dueDate).diff(dayjs(taskA.dueDate));
+  return weight ?? dayjs(pointB.dateFrom).diff(dayjs(pointB.dateTo)) - dayjs(pointA.dateFrom).diff(dayjs(pointB.dateTo));
 };
 
 const formatMonthDate = (date) => dayjs(date).format('MMM D');
@@ -51,6 +51,6 @@ export {
   formatMonthDate,
   formatTimeDate,
   formatDuration,
-  sortDateUp,
-  sortDateDown
+  sortDate,
+  sortTime
 };
