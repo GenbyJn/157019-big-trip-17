@@ -3,33 +3,6 @@ import duration from 'dayjs/plugin/duration';
 
 dayjs.extend(duration);
 
-const getWeightForNullDate = (dateA, dateB) => {
-  if (dateA === null && dateB === null) {
-    return 0;
-  }
-
-  if (dateA === null) {
-    return 1;
-  }
-
-  if (dateB === null) {
-    return -1;
-  }
-
-  return null;
-};
-
-const sortDateUp = (taskA, taskB) => {
-  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
-
-  return weight ?? dayjs(taskA.dueDate).diff(dayjs(taskB.dueDate));
-};
-
-const sortDateDown = (taskA, taskB) => {
-  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
-
-  return weight ?? dayjs(taskB.dueDate).diff(dayjs(taskA.dueDate));
-};
 
 const formatMonthDate = (date) => dayjs(date).format('MMM D');
 const formatTimeDate = (date) => dayjs(date).format('HH:MM');
@@ -51,6 +24,4 @@ export {
   formatMonthDate,
   formatTimeDate,
   formatDuration,
-  sortDateUp,
-  sortDateDown
 };
