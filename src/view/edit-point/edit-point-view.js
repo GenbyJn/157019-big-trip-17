@@ -67,11 +67,6 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this.element.querySelector('form').addEventListener('submit', this.#submitClickHandler);
   };
 
-  #submitClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.submit();
-  };
-
   setRollupButtonClickHandler = (callback) => {
     this._callback.click = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#buttonClickHandler);
@@ -79,6 +74,11 @@ export default class EditPointView extends useChildrenView(AbstractView) {
 
   #buttonClickHandler = () => {
     this._callback.click();
+  };
+
+  #submitClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.submit();
   };
 
 }
