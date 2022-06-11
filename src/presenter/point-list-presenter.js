@@ -1,18 +1,18 @@
-import { render, RenderPosition } from '../framework/render';
+import { render, RenderPosition } from '@/framework/render';
 
 import PointListView from '@view/point-list-view';
 import PointPresenter from './point-presenter';
 import ListEmptyView from '@view/list-empty-view';
-import SortView from '@sort/sort-view.js';
-import { updateItem } from '../util/util';
-import { SortType } from '@/const';
+import SortView from '@/view/sort-view.js';
+import { updateItem } from '@/util/util';
+import { SortType } from '@/mock/const';
 import { sortDateUp, sortDateDown } from '../util/date';
 
 export default class PointListPresenter {
   #mainPointsElement = null;
   #pointModel = null;
 
-  #pointListView = new PointListView();
+  #pointListComponent = new PointListView();
   #points = [];
   #pointPresenter = new Map();
   #sortComponent = new SortView();
@@ -31,26 +31,17 @@ export default class PointListPresenter {
 
     this.#sourcedPoints = [...this.#pointModel.points];
 
-    this.#renderPointList();
+    this.#renderItemList();
     this.#renderSort();
   }
 
-  #handlePointChange = (updatePoint) => {
-    this.#points = updateItem(this.#points, updatePoint);
-    this.#pointPresenter.get(updatePoint.id).init(updatePoint);
-  };
-
-  #handleModeChange =() => {
-    this.#pointPresenter.forEach((presenter) => presenter.resetView());
-  };
-
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#pointListView.element, this.#handlePointChange, this.#handleModeChange);
+    const pointPresenter = new PointPresenter(this.#pointListComponent.element, this.#handlePointChange, this.#handleModeChange);
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
 
-  #renderPointList = () => {
+  #renderItemList = () => {
     if (this.#points.length === 0 ) {
       render(new ListEmptyView(),  this.#mainPointsElement);
       return;
@@ -60,7 +51,7 @@ export default class PointListPresenter {
       this.#renderPoint(point);
     });
 
-    render(this.#pointListView, this.#mainPointsElement);
+    render(this.#pointListComponent, this.#mainPointsElement);
   };
 
   #renderSort = () => {
@@ -83,17 +74,26 @@ export default class PointListPresenter {
     this.#currentSortType = sortType;
   };
 
+  #clearList = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
+  };
+
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
     }
     this.#sortPoints(sortType);
-    this.#clearPointList();
-    this.#renderPointList();
+    this.#clearList();
+    this.#renderItemList();
   };
 
-  #clearPointList = () => {
-    this.#pointPresenter.forEach((presenter) => presenter.destroy());
-    this.#pointPresenter.clear();
+  #handlePointChange = (updatePoint) => {
+    this.#points = updateItem(this.#points, updatePoint);
+    this.#pointPresenter.get(updatePoint.id).init(updatePoint);
+  };
+
+  #handleModeChange =() => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 }

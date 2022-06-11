@@ -1,4 +1,4 @@
-import { render, replace, remove } from '../framework/render';
+import { render, replace, remove } from '@/framework/render';
 
 import { isEscapeKey } from '@/util/util';
 import PointListItemView from '@view/point-list-item-view';
@@ -10,7 +10,7 @@ const Mode = {
 };
 
 export default class PointPresenter {
-  #pointListView = null;
+  #pointListComponent = null;
   #changeData = null;
   #changeMode = null;
 
@@ -20,8 +20,8 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor(pointListView, changeData, changeMode) {
-    this.#pointListView = pointListView;
+  constructor(pointListComponent, changeData, changeMode) {
+    this.#pointListComponent = pointListComponent;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
   }
@@ -41,7 +41,7 @@ export default class PointPresenter {
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
 
     if (prevEditPointComponent === null || prevEditPointComponent === null) {
-      render(this.#pointItemComponent, this.#pointListView);
+      render(this.#pointItemComponent, this.#pointListComponent);
       return;
     }
 
@@ -51,6 +51,7 @@ export default class PointPresenter {
 
     if (this.#mode === Mode.EDITTING) {
       replace(this.#editPointComponent, prevEditPointComponent);
+      this.#mode = Mode.DEFAULT;
     }
 
     remove(prevPointItemComponent);
@@ -77,7 +78,7 @@ export default class PointPresenter {
 
   #replaceEditPointToPoint = () => {
     replace(this.#pointItemComponent, this.#editPointComponent);
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.DEFAULT;
   };
 

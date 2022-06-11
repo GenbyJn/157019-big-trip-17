@@ -1,4 +1,4 @@
-import { render } from '@/render';
+import { render } from '../render';
 
 const useChildrenView = (view) => class extends view {
   #childs = new Map();

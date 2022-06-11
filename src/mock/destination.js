@@ -1,5 +1,5 @@
-import { randomizeInteger } from '../mock/random';
-import { POINT_DESTINATIONS } from '../const';
+import { randomizeInteger } from '@/mock/random';
+import { POINT_DESTINATIONS } from '@/mock/const';
 
 const generateDestinations = () =>  POINT_DESTINATIONS[randomizeInteger(0, POINT_DESTINATIONS.length - 1)];
 
