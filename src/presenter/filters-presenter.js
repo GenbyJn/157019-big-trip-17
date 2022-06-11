@@ -1,4 +1,4 @@
-import { render } from '@/render.js';
+import { render } from '@/framework/render';
 
 import FiltersView from '@filters/filters-view.js';
 import FiltersEverythingView from '@filters/filters-everything-view.js';

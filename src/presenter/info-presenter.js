@@ -1,4 +1,4 @@
-import { render, RenderPosition } from '@/render.js';
+import { render, RenderPosition } from '@/framework/render';
 
 import InfoView from '@info/trip-info-view.js';
 import InfoMainView from '@info/info-main-view.js';

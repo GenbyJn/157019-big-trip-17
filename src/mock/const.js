@@ -17,8 +17,22 @@ const POINT_DESTINATIONS = [
   'Deimos',
 ];
 
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PAST: 'past',
+};
+
+const SortType = {
+  DEFAULT: 'default',
+  TIME: 'time',
+  PRICE: 'price',
+};
+
 export {
   POINT_TYPES,
-  POINT_DESTINATIONS
+  POINT_DESTINATIONS,
+  FilterType,
+  SortType
 };
 

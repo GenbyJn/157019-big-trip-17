@@ -1,7 +1,7 @@
 import AbstractView from '@/framework/view/abstract-view';
 import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
-import { POINT_TYPES } from '@/const';
+import { POINT_TYPES } from '@/mock/const';
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
@@ -64,20 +64,20 @@ export default class EditPointView extends useChildrenView(AbstractView) {
 
   setSubmitHandler = (callback) => {
     this._callback.submit = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#onSubmit);
+    this.element.querySelector('form').addEventListener('submit', this.#submitClickHandler);
   };
 
-  #onSubmit = (evt) => {
+  #submitClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.submit();
   };
 
-  setClickHandler = (callback) => {
+  setRollupButtonClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onClick);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#buttonClickHandler);
   };
 
-  #onClick = () => {
+  #buttonClickHandler = () => {
     this._callback.click();
   };
 
