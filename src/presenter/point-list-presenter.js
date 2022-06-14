@@ -6,7 +6,7 @@ import ListEmptyView from '@view/list-empty-view';
 import SortView from '@/view/sort-view.js';
 import { updateItem } from '@/util/util';
 import { SortType } from '@/mock/const';
-import { sortByTime, sortByPrice } from '@/util/sort';
+import { sortByTime, sortByPrice } from '../util/sort';
 
 export default class PointListPresenter {
   #mainPointsElement = null;
