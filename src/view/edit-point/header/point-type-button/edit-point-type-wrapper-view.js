@@ -1,4 +1,4 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 
 const createEditPointTypeWrapperTemplate = ({ type }) => (
   `<div class="event__type-wrapper">
@@ -10,7 +10,7 @@ const createEditPointTypeWrapperTemplate = ({ type }) => (
   </div>`
 );
 
-export default class EditPointTypeWrapperView extends AbstractView {
+export default class EditPointTypeWrapperView extends AbstractStatefulView {
   _state = null;
 
   constructor({ type }) {

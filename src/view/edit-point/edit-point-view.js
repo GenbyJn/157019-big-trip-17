@@ -1,7 +1,7 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '../../framework/view/abstract-stateful-view';
 import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
-import { POINT_TYPES } from '@/mock/const';
+import { POINT_TYPES} from '@/mock/const';
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
@@ -23,7 +23,7 @@ const createEditPointTemplate = () => (
   </li>`
 );
 
-export default class EditPointView extends useChildrenView(AbstractView) {
+export default class EditPointView extends useChildrenView(AbstractStatefulView) {
 
   constructor(point) {
     super();
@@ -81,4 +81,7 @@ export default class EditPointView extends useChildrenView(AbstractView) {
     this._callback.submit();
   };
 
+  _restoreHandlers = () => {
+
+  };
 }
