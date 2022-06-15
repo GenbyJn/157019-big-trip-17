@@ -15,12 +15,12 @@ const generatePoint = ({
   dateTo = new Date('2019-07-11T11:22:13.375Z'),
   pointDestination = generateDestination().name,
 } = {}) => ({
+  id: nanoid(),
   basePrice,
   dateFrom,
   dateTo,
   destination: generateDestination(),
   pointDestination,
-  id: nanoid(),
   isFavorite: false,
   offers,
   type
