@@ -2,6 +2,10 @@ import AbstractStatefulView from '../../framework/view/abstract-stateful-view';
 import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
 import { POINT_TYPES, POINT_DESTINATIONS} from '@/mock/const';
+import flatpickr from 'flatpickr';
+import dayjs from 'dayjs';
+
+import 'flatpickr/dist/flatpickr.min.css';
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
@@ -24,6 +28,8 @@ const createEditPointTemplate = () => (
 );
 
 export default class EditPointView extends useChildrenView(AbstractStatefulView) {
+
+    #datepicker = null;
 
   constructor(point) {
     super();
@@ -85,8 +91,48 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     this._callback.submit();
   };
 
-  _restoreHandlers = () => {
+  #setDateFromPicker = () => {
+    this.#datepicker = flatpickr(
+      this.element.querySelector('#event-start-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._state.dateFrom,
+        onChange: this.#dateFromChangeHandler,
+      },
+    );
+  };
 
+  #setDateToPicker = () => {
+    this.#datepicker = flatpickr(
+      this.element.querySelector('#event-end-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._state.dateTo,
+        minDate: this._state.dateFrom,
+        onChange: this.#dateToChangeHandler,
+      },
+    );
+  };
+
+  #dateFromChangeHandler = ([userDate]) => {
+    const isFromAfterTo = userDate > dayjs(this._state.dateTo).toDate();
+    this.updateElement({
+      dateFrom: userDate,
+      dateTo: isFromAfterTo ? userDate : this._state.dateTo,
+    });
+  };
+
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateTo: userDate,
+    });
+  };
+
+  _restoreHandlers = () => {
+    this.#setDateFromPicker();
+    this.#setDateToPicker();
   };
 
   static parsePointToState = (point) => ({
