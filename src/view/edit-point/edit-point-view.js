@@ -91,6 +91,7 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
 
   static parsePointToState = (point) => ({
     ...point,
+
   });
 
   static parseStateToPoint = (state) => {
