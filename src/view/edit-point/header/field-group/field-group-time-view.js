@@ -1,7 +1,10 @@
 import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 import { completeDateFormat } from '@/util/date';
 
-const createGroupTimeTemplate = (dateFrom, dateTo) => {
+const createGroupTimeTemplate = (point) => {
+
+  const { dateFrom, dateTo } = point;
+
   const dateStart = dateFrom !== null
     ? completeDateFormat(dateFrom)
     : '';
@@ -21,7 +24,14 @@ const createGroupTimeTemplate = (dateFrom, dateTo) => {
 
 export default class GroupTimeView extends AbstractStatefulView{
 
+  #point = null;
+
+  constructor(point) {
+    super();
+    this.#point = point;
+  }
+
   get template() {
-    return createGroupTimeTemplate();
+    return createGroupTimeTemplate(this.#point);
   }
 }
