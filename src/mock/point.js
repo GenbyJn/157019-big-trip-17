@@ -44,14 +44,22 @@ const generatePoints = () => [
     dateFrom: new Date('2019-07-12T07:30:56.845Z'),
     dateTo: new Date('2019-07-13T09:22:13.375Z'),
     basePrice: 200,
-    isFavorite: true
+    isFavorite: true,
+    offers: [
+      { id: 1, title: 'Add luggage', price: 50 },
+      { id: 2, title: 'Switch to comfort', price: 80 },
+    ]
   }),
   generatePoint({
     type: 'train',
     id: '3',
     dateFrom: new Date('2019-08-14T14:30:56.845Z'),
     dateTo: new Date('2019-08-15T19:22:13.375Z'),
-    basePrice: 1000
+    basePrice: 1000,
+    offers: [
+      { id: 1, title: 'Add meal', price: 15 },
+      { id: 2, title: 'Choose seats', price: 5 },
+    ]
   })
 ];
 

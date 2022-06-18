@@ -1,7 +1,7 @@
 import AbstractStatefulView from '../../framework/view/abstract-stateful-view';
 import { useChildrenView } from '../../framework/view/use-children-view';
 import {camalizeFirstCharacter} from '../../util/util';
-import { POINT_TYPES} from '@/mock/const';
+import { POINT_TYPES, POINT_DESTINATIONS} from '@/mock/const';
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
@@ -29,16 +29,20 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     super();
 
     const isNewMode = point.id === undefined; // Boolean(point.id)
+    const destinationNames = POINT_DESTINATIONS.map((name) => name);
     const types = POINT_TYPES.map((pointType) => ({
       id: pointType,
       text: camalizeFirstCharacter(pointType),
       isChecked: pointType === point.type,
     }));
+    console.log(types);
+    console.log(destinationNames);
 
     this._state = {
       ...point,
       resetButtonText: isNewMode ? 'Cancel' : 'Delete',
       types,
+      destinationNames,
     };
 
     this._addChild('header', {view: HeaderView, selector: '.event--edit'});
@@ -83,5 +87,13 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
 
   _restoreHandlers = () => {
 
+  };
+
+  static parsePointToState = (point) => ({
+    ...point,
+  });
+
+  static parseStateToPoint = (state) => {
+    const point = { ...state };
   };
 }
