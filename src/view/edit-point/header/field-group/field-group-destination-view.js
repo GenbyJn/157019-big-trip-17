@@ -1,6 +1,4 @@
 import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
-import { POINT_DESTINATIONS } from '../../../../mock/const';
-
 
 const createGroupDestinationTemplate = ({ pointDestination, type, id }) => (
   `<div class="event__field-group  event__field-group--destination">
@@ -9,9 +7,7 @@ const createGroupDestinationTemplate = ({ pointDestination, type, id }) => (
     </label>
     <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="${pointDestination}" list="destination-list-${id}">
     <datalist id="destination-list-${id}"> 
-    ${POINT_DESTINATIONS.map(
-    (item) => `<option value="${item}"></option>`
-  ).join('')}
+    <option value="${ pointDestination }"></option>
     </datalist>
   </div>`
 );

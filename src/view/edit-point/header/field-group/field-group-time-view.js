@@ -1,4 +1,4 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 
 const createGroupTimeTemplate = () => (
   `<div class="event__field-group  event__field-group--time">
@@ -10,7 +10,7 @@ const createGroupTimeTemplate = () => (
   </div>`
 );
 
-export default class GroupTimeView extends AbstractView{
+export default class GroupTimeView extends AbstractStatefulView{
 
   get template() {
     return createGroupTimeTemplate();
