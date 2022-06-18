@@ -6,6 +6,13 @@ const createPointListItemTemplate = (point) => {
 
   const eventDuration = formatDuration(dateTo - dateFrom);
 
+  const dateStart = dateFrom !== null
+    ? formatTimeDate(dateFrom)
+    : '';
+  const dateEnd = dateTo !== null
+    ? formatTimeDate(dateTo)
+    : '';
+
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
@@ -20,9 +27,9 @@ const createPointListItemTemplate = (point) => {
       <h3 class="event__title">${type} ${pointDestination}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${dateFrom.toISOString()}">${formatTimeDate(dateFrom)}</time>
+          <time class="event__start-time" datetime="${dateFrom.toISOString()}">${dateStart}</time>
           —
-          <time class="event__end-time" datetime="${dateTo.toISOString()}">${formatTimeDate(dateTo)}</time>
+          <time class="event__end-time" datetime="${dateTo.toISOString()}">${dateEnd}</time>
         </p>
         <p class="event__duration">${eventDuration}</p>
       </div>
