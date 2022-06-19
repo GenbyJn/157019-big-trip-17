@@ -1,6 +1,7 @@
 import { generatePoints } from '@/mock/point.js';
+import Observable from '../framework/observable';
 
-export default class PointsModel {
+export default class PointsModel extends Observable {
 
   #points = generatePoints();
 

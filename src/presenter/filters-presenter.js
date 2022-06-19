@@ -6,17 +6,17 @@ import FiltersFutureView from '@filters/filters-future-view.js';
 import FiltersPastView from '@filters/filters-past-view.js';
 
 export default class FiltersPresenter {
-  #filtersView = new FiltersView();
-  #filtersEverythingView = new FiltersEverythingView();
-  #filtersFutureView = new FiltersFutureView();
-  #filtersPastView = new FiltersPastView();
+  #filtersComponent = new FiltersView();
+  #filtersEverythingComponent = new FiltersEverythingView();
+  #filtersFutureComponent = new FiltersFutureView();
+  #filtersPastComponent = new FiltersPastView();
 
   init = (container) => {
     const {headerMainFiltersElement} = container;
 
-    render(this.#filtersView, headerMainFiltersElement);
-    render(this.#filtersEverythingView, this.#filtersView.element);
-    render(this.#filtersFutureView, this.#filtersView.element);
-    render(this.#filtersPastView, this.#filtersView.element);
+    render(this.#filtersComponent, headerMainFiltersElement);
+    render(this.#filtersEverythingComponent, this.#filtersComponent.element);
+    render(this.#filtersFutureComponent, this.#filtersComponent.element);
+    render(this.#filtersPastComponent, this.#filtersComponent.element);
   };
 }
