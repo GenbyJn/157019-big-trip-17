@@ -1,4 +1,4 @@
-import { generateDestination } from './destination';
+import { createDestination } from './destination';
 import { randomizeInteger } from './random';
 import { POINT_TYPES } from '@/mock/const';
 import { nanoid } from 'nanoid';
@@ -8,19 +8,18 @@ const generatePointType = () =>
 
 const generatePoint = ({
   type = generatePointType(),
-  // id = '0',
+  id = nanoid(),
   basePrice = 1000,
   offers = [],
   dateFrom = new Date('2019-07-10T19:30:56.845Z'),
   dateTo = new Date('2019-07-11T11:22:13.375Z'),
-  pointDestination = generateDestination().name,
+  destination = createDestination({ name: 'Paris' }),
 } = {}) => ({
-  id: nanoid(),
+  id,
   basePrice,
   dateFrom,
   dateTo,
-  destination: generateDestination(),
-  pointDestination,
+  destination,
   isFavorite: false,
   offers,
   type
@@ -29,11 +28,10 @@ const generatePoint = ({
 const generatePoints = () => [
   generatePoint({
     type: 'drive',
-    id: '1',
+    // id: '1',
     basePrice: 100,
     dateFrom: new Date('2019-06-10T10:30:56.845Z'),
     dateTo: new Date('2019-06-11T14:22:13.375Z'),
-    pointDestination: 'Moon',
     offers: [
       { id: 1, title: 'Add luggage', price: 50 },
       { id: 2, title: 'Switch to comfort', price: 80 },
@@ -63,5 +61,4 @@ const generatePoints = () => [
   })
 ];
 
-export { generatePoint, generatePoints, generateDestination };
-
+export { generatePoints };

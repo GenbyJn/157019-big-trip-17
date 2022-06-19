@@ -33,16 +33,11 @@ export default class SortView extends AbstractView {
   }
 
   setSortTypeChangeHandler = (callback) => {
-    this._callback.sortTypeChange = callback;
-    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+    this._callback.change = callback;
+    this.element.addEventListener('change', this.#changeHandler);
   };
 
-  #sortTypeChangeHandler = (evt) => {
-    if (evt.target.tagName !== 'INPUT') {
-      return;
-    }
-
-    this._callback.sortTypeChange(evt.target.dataset.sortType);
+  #changeHandler = (evt) => {
+    this._callback.change(evt.target.dataset.sortType);
   };
-
 }

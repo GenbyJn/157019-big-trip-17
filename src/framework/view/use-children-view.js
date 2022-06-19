@@ -47,9 +47,9 @@ const useChildrenView = (view) => class extends view {
       configurable: true,
       enumerable: true,
       get: () => {
-        const { view: ChildView } = this.#childs.get(name);
+        const { view: ChildView, state } = this.#childs.get(name);
 
-        const childView = new ChildView(this._state);
+        const childView = new ChildView(state ? this._state[state] : this._state);
 
         delete this._children[name];
         this._children[name] = childView;

@@ -2,7 +2,7 @@ import AbstractView from '@/framework/view/abstract-view';
 import { formatMonthDate, formatTimeDate, formatDuration } from '@/util/date';
 
 const createPointListItemTemplate = (point) => {
-  const { basePrice, dateFrom, dateTo, isFavorite, type, pointDestination } = point;
+  const { basePrice, dateFrom, dateTo, isFavorite, type, destination: { name } } = point;
 
   const eventDuration = formatDuration(dateTo - dateFrom);
 
@@ -24,7 +24,7 @@ const createPointListItemTemplate = (point) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${pointDestination}</h3>
+      <h3 class="event__title">${type} ${name}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="${dateFrom.toISOString()}">${dateStart}</time>
@@ -55,6 +55,7 @@ export default class PointListItemView extends AbstractView {
 
   constructor(point) {
     super();
+
     this.#point = point;
   }
 
@@ -63,22 +64,22 @@ export default class PointListItemView extends AbstractView {
   }
 
   setRollupButtonClickHandler = (callback) => {
-    this._callback.click = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#buttonClickHandler);
-  };
-
-  #buttonClickHandler = (evt) => {
-    this._callback.click();
-    evt.preventDefault();
+    this._callback.clickRollup = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
   };
 
   setFavoriteClickHandler = (callback) => {
-    this._callback.favoriteClick = callback;
-    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favotiteClickHandler);
+    this._callback.clickFavorite = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favotiteButtonClickHandler);
   };
 
-  #favotiteClickHandler = (evt) => {
+  #rollupButtonClickHandler = (evt) => {
+    this._callback.clickRollup();
     evt.preventDefault();
-    this._callback.favoriteClick();
+  };
+
+  #favotiteButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.clickFavorite();
   };
 }

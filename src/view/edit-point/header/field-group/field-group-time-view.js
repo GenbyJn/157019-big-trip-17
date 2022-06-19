@@ -21,7 +21,8 @@ const createGroupTimeTemplate = (point) => {
       <label class="visually-hidden" for="event-end-time-1">To</label>
       <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd}">
     </div>`
-  );};
+  );
+};
 
 export default class GroupTimeView extends AbstractStatefulView {
   #startDatepicker = null;
@@ -39,16 +40,22 @@ export default class GroupTimeView extends AbstractStatefulView {
     return createGroupTimeTemplate(this._state);
   }
 
-  get dates() {
-    return this._state;
+  get state() {
+    const [dateFrom] = this.#startDatepicker?.selectedDates ?? [null];
+    const [dateTo] = this.#endDatepicker?.selectedDates ?? [null];
+
+    return {
+      dateFrom,
+      dateTo,
+    };
   }
 
   removeElement = () => {
     super.removeElement();
 
     if (this.#startDatepicker !== null) { // if (this.#startDatepicker) { ... }
-      this.#startDatepicker.destroy();
-      this.#startDatepicker = null;
+      this.#startDatepicker.destroy();    // удаляет из DOM (браузера)
+      this.#startDatepicker = null;       // удаляется из памяти движка JS
     }
 
     if (this.#endDatepicker !== null) {

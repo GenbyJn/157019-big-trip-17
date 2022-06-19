@@ -3,7 +3,11 @@ import { useChildrenView } from '@/framework/view/use-children-view';
 import { camalizeFirstCharacter } from '@/util/util'; // @/util/common
 import { POINT_TYPES } from '@/const';
 
-import { POINT_DESTINATIONS } from '@/mock/const';
+import { createDestinations } from '@/mock/destination';
+import { createOffers } from '@/mock/offers';
+
+const destinations = createDestinations();
+const offers = createOffers();
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
@@ -24,23 +28,18 @@ const createEditPointTemplate = () => (
   </li>`
 );
 
+const checkDestination = ({ description, pictures }) => description !== '' || pictures.length > 0;
+
 export default class EditPointView extends useChildrenView(AbstractStatefulView) {
+  #destinations = [];
+  #offers = [];
+
   constructor(point) {
     super();
 
-    const isNewMode = point.id === undefined; // Boolean(point.id)
-    const types = POINT_TYPES.map((pointType) => ({
-      id: pointType,
-      text: camalizeFirstCharacter(pointType),
-      isChecked: pointType === point.type,
-    }));
-
-    this._state = {
-      ...point,
-      resetButtonText: isNewMode ? 'Cancel' : 'Delete',
-      types,
-      destinationNames: POINT_DESTINATIONS.map((name) => name),
-    };
+    this._state = EditPointView.parsePointToState(point, destinations, offers);
+    this.#destinations = destinations;
+    this.#offers = offers;
 
     this._addChild('header', {view: HeaderView, selector: '.event--edit'});
     this._addChild('wrapper', {view: WrapperView, selector: '.event__header'});
@@ -52,7 +51,9 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     this._addChild('rollupButton', {view: RollupButtonView, selector: '.event__header'});
     this._addChild('details', {view: DetailsView, selector: '.event--edit'});
     this._addChild('offers', {view: OffersView, selector: '.event__details'});
-    this._addChild('destination', {view: DestinationView, selector: '.event__details'});
+    this._addChild('destination', {view: DestinationView, selector: '.event__details', state: 'destination'});
+
+    this.#setInnerHandlers();
   }
 
   get template() {
@@ -68,20 +69,112 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
   };
 
   setRollupButtonClickHandler = (callback) => {
+    this._callback.clickRollup = callback;
     this._children.rollupButton.setClickHandler(callback);
+  };
+
+  reset = (point) => {
+    this.updateElement(
+      EditPointView.parsePointToState(point, this.#destinations, this.#offers),
+    );
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+
+    this.setSubmitHandler(this._callback.submit);
+    this.setRollupButtonClickHandler(this._callback.clickRollup);
+  };
+
+  #setInnerHandlers = () => {
+    this._children.groupDestination.setNameChangeHandler((name) => {
+      const destination = destinations.find((destination) => destination.name === name);
+
+      this._children.destination.updateElement({
+        ...destination,
+        hasDestination: checkDestination(destination),
+      });
+
+      this._state.destination = destination;
+    });
+
+    this._children.wrapper.setTypeChangeHandler((type) => {
+      const availableOffers = this.#offers.find((offer) => offer.type === type)?.offers ?? [];
+      const hasOffers = availableOffers.length > 0;
+
+      this._children.offers.updateElement({ availableOffers, hasOffers });
+    });
   };
 
   #submitClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.submit();
+
+    const { type } = this._children.wrapper.state;
+    const { basePrice } = this._children.groupPrice.state;
+    const { dateFrom, dateTo } = this._children.groupTime.state;
+    const { offers } = this._children.offers.state;
+
+    const point = EditPointView.parseStateToPoint(this._state);
+
+    point.type = type;
+    point.basePrice = basePrice;
+    point.dateFrom = dateFrom;
+    point.dateTo = dateTo;
+    point.offers = offers;
+
+    this._callback.submit?.(point);
   };
 
-  static parsePointToState = (point) => ({
-    ...point,
+  static parsePointToState = (point, destinations, allOffers) => {
+    const isNewMode = point.id === undefined; // Boolean(point.id)
+    const types = POINT_TYPES.map((pointType) => ({
+      id: pointType,
+      text: camalizeFirstCharacter(pointType),
+      isChecked: pointType === point.type,
+    }));
 
-  });
+    const {
+      type,
+      destination,
+      offers,
+    } = point;
 
+    const typeOffers = allOffers.find((offer) => offer.type === type)?.offers ?? [];
+
+    const availableOffers = [];
+    typeOffers.forEach((typeOffer) => {
+      availableOffers.push({
+        ...typeOffer,
+        isChecked: offers.some(({ id }) => id === typeOffer.id),
+      });
+    });
+
+    return {
+      ...point,
+      types,
+      availableOffers,
+      resetButtonText: isNewMode ? 'Cancel' : 'Delete',
+      destinationNames: destinations.map(({ name }) => name),
+      hasDestination: checkDestination(destination),
+      hasOffers: availableOffers.length > 0,
+    };
+  };
+
+  static parseStateToPoint = ({
+    type: _type,
+    availableOffers: _availableOffers,
+    resetButtonText: _resetButtonText,
+    destinationNames: _destinationNames,
+    hasDestination: _hasDestination,
+    hasOffers: _hasOffers,
+    ...point
+  }) => point;
+
+  /*
   static parseStateToPoint = (state) => {
-    const point = { ...state };
+    const { type, resetButtonText, ...point } = { ...state };
+
+    delete point.types;
   };
+**/
 }

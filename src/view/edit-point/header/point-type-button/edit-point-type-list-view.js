@@ -49,4 +49,5 @@ export default class EditPointTypeListView extends AbstractStatefulView {
     this._setState({ type });
     this._callback.change?.(type);
   };
+
 }

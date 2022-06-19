@@ -1,10 +1,16 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import AbstractView from '@/framework/view/abstract-view';
 
 const createViewTemplate = ({ type }) => (
-  `<img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">`
+  `<img 
+    class="event__type-icon" 
+    width="17" 
+    height="17" 
+    src="img/icons/${type}.png" 
+    alt="Event type icon"
+  >`
 );
 
-export default class EditPointTypeIconView extends AbstractStatefulView {
+export default class EditPointTypeIconView extends AbstractView {
   constructor({ type }) {
     super();
 
@@ -15,5 +21,7 @@ export default class EditPointTypeIconView extends AbstractStatefulView {
     return createViewTemplate(this._state);
   }
 
-  _restoreHandlers = () => {};
+  updateElement = ({ type }) => {
+    this.element.src = `img/icons/${type}.png`;
+  };
 }

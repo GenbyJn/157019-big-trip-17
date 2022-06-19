@@ -1,3 +1,4 @@
+// import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 import AbstractView from '@/framework/view/abstract-view';
 import { useChildrenView } from '@/framework/view/use-children-view';
 
@@ -29,11 +30,22 @@ export default class EditPointTypeWrapperView extends useChildrenView(AbstractVi
     return createViewTemplate(this._state);
   }
 
+  get state() {
+    return { ...this._state };
+  }
+
+  setTypeChangeHandler = (callback) => {
+    this._callback.change = callback;
+  };
+
   #setInnterHandlers = () => {
     this._children.typeList.setTypeChangeHandler(this.#handleTypeListChange);
   };
 
   #handleTypeListChange = (type) => {
+    this._state.type = type;
     this._children.typeIcon.updateElement({ type });
+    // this.element.querySelector('.event__type-btn').click();
+    this._callback.change?.(type);
   };
 }

@@ -4,13 +4,15 @@ import { isEscapeKey } from '@/util/util';
 import PointListItemView from '@view/point-list-item-view';
 import EditPointView from '@view/edit-point/edit-point-view';
 
+import {UserAction, UpdateType} from '../const.js';
+
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITTING: 'EDITTING',
 };
 
 export default class PointPresenter {
-  #pointListComponent = null;
+  #containerElement = null;
   #changeData = null;
   #changeMode = null;
 
@@ -20,8 +22,8 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor(pointListComponent, changeData, changeMode) {
-    this.#pointListComponent = pointListComponent;
+  constructor(containerElement, changeData, changeMode) {
+    this.#containerElement = containerElement;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
   }
@@ -41,7 +43,7 @@ export default class PointPresenter {
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
 
     if (prevEditPointComponent === null || prevEditPointComponent === null) {
-      render(this.#pointItemComponent, this.#pointListComponent);
+      render(this.#pointItemComponent, this.#containerElement);
       return;
     }
 
@@ -70,24 +72,19 @@ export default class PointPresenter {
   };
 
   #replacePointToEditPoint = () => {
+    this.#changeMode();
+
     replace(this.#editPointComponent, this.#pointItemComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
-    this.#changeMode();
     this.#mode = Mode.EDITTING;
   };
 
   #replaceEditPointToPoint = () => {
+    this.#editPointComponent.reset(this.#point);
+
     replace(this.#pointItemComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.DEFAULT;
-  };
-
-  #escKeyDownHandler = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      this.#replaceEditPointToPoint();
-      document.removeEventListener('keydown', this.#escKeyDownHandler);
-    }
   };
 
   #handlePointRollupClick = () => {
@@ -99,16 +96,31 @@ export default class PointPresenter {
   };
 
   #handleFormSubmit = (point) => {
-    this.#changeData(point);
+    // dayjs.isSameDate
+    const isUpdateDate = this.#point.dateFrom.toISOString() === point.dateFrom.toISOString()
+      || this.#point.dateTo.toISOString() === point.dateTo.toISOString();
+
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      isUpdateDate ? UpdateType.MINOR : UpdateType.PATCH,
+      point,
+    );
+
     this.#replaceEditPointToPoint();
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({
-      ...this.#point,
-      isFavorite: !this.#point.isFavorite});
+    this.#changeData(
+      UserAction.UPDATE_POINT, // TOGGLE_FAVORITE
+      UpdateType.PATCH,
+      { ...this.#point, isFavorite: !this.#point.isFavorite },
+    );
   };
 
+  #escKeyDownHandler = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      this.#replaceEditPointToPoint();
+    }
+  };
 }
-
-
