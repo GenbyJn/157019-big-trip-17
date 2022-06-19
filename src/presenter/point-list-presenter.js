@@ -24,14 +24,15 @@ export default class PointListPresenter {
     this.#pointsModel = pointsModel;
 
   }
+//console.log(his.#pointsModel);
 
   get points() {
     switch (this.#currentSortType) {
       case SortType.TIME:
-        [...this.#pointsModel].sort(sortByTime);
+        [...this.#pointsModel.points].sort(sortByTime);
         break;
       case SortType.PRICE:
-        [...this.#pointsModel].sort(sortByPrice);
+        [...this.#pointsModel.points].sort(sortByPrice);
         break;
     }
     return this.#pointsModel.points;
