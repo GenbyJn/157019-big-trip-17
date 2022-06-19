@@ -31,7 +31,7 @@ export default class PointsModel extends Observable {
   isEmpty = () => this.#points.length === 0;
 
   updatePoint = async (updateType, update) => {
-    console.log('updatePoint')
+
     const index = this.#points.findIndex((point) => point.id === point.id);
 
     if (index === -1) {
@@ -50,7 +50,7 @@ export default class PointsModel extends Observable {
 
       this._notify(updateType, updatedPoint);
     } catch(err) {
-      console.log(err)
+
       throw new Error('Can\'t update point');
     }
   };

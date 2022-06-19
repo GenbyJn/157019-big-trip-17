@@ -6,8 +6,6 @@ import TripMessageView from '@view/trip-message-view';
 import SortView from '@/view/sort-view.js';
 
 import { SortType, UpdateType, UserAction } from '@/const.js';
-
-import { updateItem } from '@/util/util';
 import { sortByTime, sortByPrice } from '../util/sort';
 
 const TripMessage = {
@@ -41,18 +39,14 @@ export default class PointListPresenter {
   get points() {
     switch (this.#currentSortType) {
       case SortType.TIME:
-        [...this.#pointsModel.poits].sort(sortByTime);
-        break;
+        return [...this.#pointsModel.points].sort(sortByTime);
       case SortType.PRICE:
-        [...this.#pointsModel.points].sort(sortByPrice);
-        break;
-      default:
-        this.#points = [...this.#sourcedPoints];
+        return [...this.#pointsModel.points].sort(sortByPrice);
     }
     return this.#pointsModel.points;
   }
 
-  init = (mainElement) => {
+  init = () => {
     // this.#points = [...this.#pointModel.points];
     // this.#sourcedPoints = [...this.#pointModel.points];
 
@@ -71,7 +65,7 @@ export default class PointListPresenter {
     render(this.#loadingComponent,  this.#mainPointsElement);
   };
 
-  #renderList = (points) => {
+  #renderList = () => {
     if (this.#isLoading) {
       this.#renderLoading();
       return;
@@ -84,9 +78,7 @@ export default class PointListPresenter {
 
     this.#points = [...this.#pointsModel.points];
     this.#sourcedPoints = [...this.#pointsModel.points];
-
-    // this.#renderPoint(this.#points[0]);
-    points.forEach((point) => this.#renderPoint(point));
+    this.#points.forEach(this.#renderPoint);
 
     render(this.#pointListComponent, this.#mainPointsElement);
     this.#renderSort();
@@ -97,20 +89,20 @@ export default class PointListPresenter {
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
-  // #sortPoints = (sortType) => {
-  //   switch (sortType) {
-  //     case SortType.TIME:
-  //       this.#points.sort(sortByTime);
-  //       break;
-  //     case SortType.PRICE:
-  //       this.#points.sort(sortByPrice);
-  //       break;
-  //     default:
-  //       this.#points = [...this.#sourcedPoints];
-  //   }
+  #sortPoints = (sortType) => {
+    switch (sortType) {
+      case SortType.TIME:
+        this.#points.sort(sortByTime);
+        break;
+      case SortType.PRICE:
+        this.#points.sort(sortByPrice);
+        break;
+      default:
+        this.#points = [...this.#sourcedPoints];
+    }
 
-  //   this.#currentSortType = sortType;
-  // };
+    this.#currentSortType = sortType;
+  };
 
   #clearList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
@@ -122,7 +114,7 @@ export default class PointListPresenter {
       return;
     }
 
-    //this.#sortPoints(sortType);
+    this.#sortPoints(sortType);
     this.#clearList();
     this.#renderList();
   };
@@ -132,7 +124,7 @@ export default class PointListPresenter {
       case UserAction.UPDATE_POINT:
         // this.#taskPresenter.get(update.id).setSaving();
         try {
-          await this.pointModel.updatePoint(updateType, update);
+          await this.#pointsModel.updatePoint(updateType, update);
         } catch(err) {
           // this.#taskPresenter.get(update.id).setAborting();
         }
@@ -154,7 +146,6 @@ export default class PointListPresenter {
         // this.#renderBoard();
         break;
       case UpdateType.INIT:
-        console.log(UpdateType.INIT);
         this.#isLoading = false;
         remove(this.#loadingComponent);
         this.#renderList();
