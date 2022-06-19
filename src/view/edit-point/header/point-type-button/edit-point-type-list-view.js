@@ -1,4 +1,4 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 
 const createTypeItemTemplate = ({ id, text, isChecked = false } = {}) => (
   `<div class="event__type-item">
@@ -14,7 +14,7 @@ const createTypeItemTemplate = ({ id, text, isChecked = false } = {}) => (
   </div>`
 );
 
-const createEditPointTypeListTemplate = ({ types }) => (
+const createViewTemplate = ({ types }) => (
   `<div class="event__type-list">
     <fieldset class="event__type-group">
       <legend class="visually-hidden">Event type</legend>
@@ -23,28 +23,30 @@ const createEditPointTypeListTemplate = ({ types }) => (
   </div>`
 );
 
-export default class EditPointTypeListView extends AbstractView {
-  _state = {};
-
-  constructor({ types }) {
+export default class EditPointTypeListView extends AbstractStatefulView {
+  constructor({ type, types }) {
     super();
-    this._state = { types };
 
-    this.element.querySelector('.event__type-group')
-      .addEventListener('change', this.typeChangeHandler);
+    this._state = { type, types };
   }
 
   get template() {
-    return createEditPointTypeListTemplate(this._state);
+    return createViewTemplate(this._state);
   }
 
-  typeChangeHandler(evt) {
+  setTypeChangeHandler = (callback) => {
+    this._callback.change = callback;
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#typeGroupChangeHandler);
+  };
 
+  _restoreHandlers = () => {
+    this.setTypeChangeHandler(this._callback.change);
+  };
+
+  #typeGroupChangeHandler = (evt) => {
     const type = evt.target.value;
 
-    this._state = {
-      ...this._state,
-      type,
-    };
-  }
+    this._setState({ type });
+    this._callback.change?.(type);
+  };
 }

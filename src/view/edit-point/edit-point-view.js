@@ -1,15 +1,12 @@
-import AbstractStatefulView from '../../framework/view/abstract-stateful-view';
-import { useChildrenView } from '../../framework/view/use-children-view';
-import {camalizeFirstCharacter} from '../../util/util';
-import { POINT_TYPES, POINT_DESTINATIONS} from '@/mock/const';
-import flatpickr from 'flatpickr';
-import dayjs from 'dayjs';
+import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import { useChildrenView } from '@/framework/view/use-children-view';
+import { camalizeFirstCharacter } from '@/util/util'; // @/util/common
+import { POINT_TYPES } from '@/const';
 
-import 'flatpickr/dist/flatpickr.min.css';
+import { POINT_DESTINATIONS } from '@/mock/const';
 
 import HeaderView from '@edit-point-header/header-view';
 import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
-import TypeListView from '@edit-point-header/point-type-button/edit-point-type-list-view';
 import GroupDestinationView from '@edit-point-header/field-group/field-group-destination-view';
 import GroupTimeView from '@edit-point-header/field-group/field-group-time-view';
 import GroupPriceView from '@edit-point-header/field-group/field-group-price-view';
@@ -28,32 +25,25 @@ const createEditPointTemplate = () => (
 );
 
 export default class EditPointView extends useChildrenView(AbstractStatefulView) {
-
-    #datepicker = null;
-
   constructor(point) {
     super();
 
     const isNewMode = point.id === undefined; // Boolean(point.id)
-    const destinationNames = POINT_DESTINATIONS.map((name) => name);
     const types = POINT_TYPES.map((pointType) => ({
       id: pointType,
       text: camalizeFirstCharacter(pointType),
       isChecked: pointType === point.type,
     }));
-    console.log(types);
-    console.log(destinationNames);
 
     this._state = {
       ...point,
       resetButtonText: isNewMode ? 'Cancel' : 'Delete',
       types,
-      destinationNames,
+      destinationNames: POINT_DESTINATIONS.map((name) => name),
     };
 
     this._addChild('header', {view: HeaderView, selector: '.event--edit'});
     this._addChild('wrapper', {view: WrapperView, selector: '.event__header'});
-    this._addChild('typeList', {view: TypeListView, selector: '.event__type-wrapper'});
     this._addChild('groupDestination', {view: GroupDestinationView, selector: '.event__header'});
     this._addChild('groupTime', {view: GroupTimeView, selector: '.event__header'});
     this._addChild('groupPrice', {view: GroupPriceView, selector: '.event__header'});
@@ -78,61 +68,12 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
   };
 
   setRollupButtonClickHandler = (callback) => {
-    this._callback.click = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#buttonClickHandler);
-  };
-
-  #buttonClickHandler = () => {
-    this._callback.click();
+    this._children.rollupButton.setClickHandler(callback);
   };
 
   #submitClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.submit();
-  };
-
-  #setDateFromPicker = () => {
-    this.#datepicker = flatpickr(
-      this.element.querySelector('#event-start-time-1'),
-      {
-        enableTime: true,
-        dateFormat: 'd/m/y H:i',
-        defaultDate: this._state.dateFrom,
-        onChange: this.#dateFromChangeHandler,
-      },
-    );
-  };
-
-  #setDateToPicker = () => {
-    this.#datepicker = flatpickr(
-      this.element.querySelector('#event-end-time-1'),
-      {
-        enableTime: true,
-        dateFormat: 'd/m/y H:i',
-        defaultDate: this._state.dateTo,
-        minDate: this._state.dateFrom,
-        onChange: this.#dateToChangeHandler,
-      },
-    );
-  };
-
-  #dateFromChangeHandler = ([userDate]) => {
-    const isFromAfterTo = userDate > dayjs(this._state.dateTo).toDate();
-    this.updateElement({
-      dateFrom: userDate,
-      dateTo: isFromAfterTo ? userDate : this._state.dateTo,
-    });
-  };
-
-  #dateToChangeHandler = ([userDate]) => {
-    this.updateElement({
-      dateTo: userDate,
-    });
-  };
-
-  _restoreHandlers = () => {
-    this.#setDateFromPicker();
-    this.#setDateToPicker();
   };
 
   static parsePointToState = (point) => ({

@@ -7,8 +7,16 @@ const createRollupButtonTemplate = () => (
 );
 
 export default class RollupButtonView extends AbstractView {
-
   get template() {
     return createRollupButtonTemplate();
   }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#clickHandler);
+  };
+
+  #clickHandler = () => {
+    this._callback.click();
+  };
 }
