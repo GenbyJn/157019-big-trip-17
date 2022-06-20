@@ -4,13 +4,13 @@ const createViewTemplate = (message) => `<p class="trip-events__msg">${message}<
 
 class TripMessageView extends AbstractView {
   #message = '';
-  
+
   constructor(message) {
     super();
-    
+
     this.#message = message;
   }
-   
+
   get template() {
     return createViewTemplate(this.#message);
   }

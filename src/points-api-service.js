@@ -63,5 +63,5 @@ export default class PointsApiService extends ApiService {
     delete adaptedPoint.isFavorite;
 
     return adaptedPoint;
-  }
+  };
 }

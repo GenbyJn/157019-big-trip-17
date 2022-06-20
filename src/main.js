@@ -29,4 +29,4 @@ pointsModel.init()
   })
   .catch((err) => {
     console.warn(err);
-  })
+  });

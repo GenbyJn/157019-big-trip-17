@@ -24,14 +24,14 @@ export default class GroupPriceView extends AbstractView {
 
     this._state = { basePrice };
   }
-  
+
   get template() {
     return createViewTemplate(this._state);
   }
 
   get state() {
     const basePrice = this.element.querySelector('input[name=event-price]').valueAsNumber;
-    
+
     return {
       basePrice,
     };

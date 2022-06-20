@@ -160,16 +160,18 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     };
   };
 
-  static parseStateToPoint = ({
-    type: _type,
-    availableOffers: _availableOffers,
-    resetButtonText: _resetButtonText,
-    destinationNames: _destinationNames,
-    hasDestination: _hasDestination,
-    hasOffers: _hasOffers,
-    ...point
-  }) => point;
+  static parseStateToPoint = (state) => {
+    const point = { ...state };
 
+    delete point.destinationNames;
+    delete point.availableOffers;
+    delete point.resetButtonText;
+    delete point.hasDestination;
+    delete point.hasOffers;
+    delete point.isNew;
+
+    return point;
+  };
   /*
   static parseStateToPoint = (state) => {
     const { type, resetButtonText, ...point } = { ...state };

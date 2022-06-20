@@ -36,7 +36,7 @@ export default class EditPointDetailsOffersView extends AbstractStatefulView {
 
     this._state = { availableOffers, hasOffers };
   }
-  
+
   get template() {
     return createViewTemplate(this._state);
   }
@@ -48,12 +48,12 @@ export default class EditPointDetailsOffersView extends AbstractStatefulView {
     offersElements.forEach(({ dataset }) => {
       const { id, title, price } = dataset;
       offers.push({ id, title, price});
-    })
+    });
 
     return {
       offers,
     };
   }
 
-   _restoreHandlers = () => { };
+  _restoreHandlers = () => { };
 }
