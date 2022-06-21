@@ -1,30 +1,29 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
-import { completeDateFormat } from '@/util/date';
-import { setFlatpickr } from '@/util/flatpickr';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
-const createGroupTimeTemplate = (point) => {
-  const { dateFrom, dateTo } = point;
+import { formatEventTime } from '@util/date';
+import { setFlatpickr } from '@util/flatpickr';
 
-  const dateStart = dateFrom !== null
-    ? completeDateFormat(dateFrom)
-    : '';
+const createTimeInputTemplate = (name, date) => (
+  `<input 
+    class="event__input event__input--time" 
+    id="event-${name}-time-1" 
+    type="text" 
+    name="event-${name}-time" 
+    value="${formatEventTime(date)}"
+  >`
+);
 
-  const dateEnd = dateTo !== null
-    ? completeDateFormat(dateTo)
-    : '';
+const createViewTemplate = ({ dateFrom, dateTo }) => (
+  `<div class="event__field-group event__field-group--time">
+    <label class="visually-hidden" for="event-start-time-1">From</label>
+    ${createTimeInputTemplate('start', dateFrom)}
+    &mdash;
+    <label class="visually-hidden" for="event-end-time-1">To</label>
+    ${createTimeInputTemplate('end', dateTo)}
+  </div>`
+);
 
-  return (
-    `<div class="event__field-group  event__field-group--time">
-      <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart}">
-      &mdash;
-      <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd}">
-    </div>`
-  );
-};
-
-export default class GroupTimeView extends AbstractStatefulView {
+class GroupTimeView extends AbstractStatefulView {
   #startDatepicker = null;
   #endDatepicker = null;
 
@@ -37,7 +36,7 @@ export default class GroupTimeView extends AbstractStatefulView {
   }
 
   get template() {
-    return createGroupTimeTemplate(this._state);
+    return createViewTemplate(this._state);
   }
 
   get state() {
@@ -54,8 +53,8 @@ export default class GroupTimeView extends AbstractStatefulView {
     super.removeElement();
 
     if (this.#startDatepicker !== null) { // if (this.#startDatepicker) { ... }
-      this.#startDatepicker.destroy();    // удаляет из DOM (браузера)
-      this.#startDatepicker = null;       // удаляется из памяти движка JS
+      this.#startDatepicker.destroy();
+      this.#startDatepicker = null;
     }
 
     if (this.#endDatepicker !== null) {
@@ -68,18 +67,23 @@ export default class GroupTimeView extends AbstractStatefulView {
     const { dateFrom, dateTo } = this._state;
 
     const element = this.element;
+    const startTimeInputElement = element.querySelector('#event-start-time-1');
+    const endTimeInputElement = element.querySelector('#event-end-time-1');
 
-    this.#startDatepicker = setFlatpickr(element.querySelector('#event-start-time-1'), {
+    this.#startDatepicker = setFlatpickr(startTimeInputElement, {
       defaultDate: dateFrom,
       maxDate: dateTo,
       onClose: this.#startDatepickerCloseHandler,
     });
 
-    this.#endDatepicker = setFlatpickr(element.querySelector('#event-end-time-1'), {
+    this.#endDatepicker = setFlatpickr(endTimeInputElement, {
       defaultDate: dateTo,
       minDate: dateFrom,
       onClose: this.#endtDatepickerCloseHandler,
     });
+
+    startTimeInputElement.addEventListener('keydown', this.#timeInputKeydownHandler);
+    endTimeInputElement.addEventListener('keydown', this.#timeInputKeydownHandler);
   };
 
   #startDatepickerCloseHandler = ([dateFrom]) => {
@@ -91,4 +95,10 @@ export default class GroupTimeView extends AbstractStatefulView {
     this.#startDatepicker.set('maxDate', dateTo);
     this._setState({ dateTo });
   };
+
+  #timeInputKeydownHandler = (evt) => {
+    evt.preventDefault();
+  };
 }
+
+export default GroupTimeView;

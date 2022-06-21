@@ -1,27 +1,22 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
-import { useChildrenView } from '@/framework/view/use-children-view';
-import { camalizeFirstCharacter } from '@/util/util'; // @/util/common
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
+import { useChildrenView } from '@framework/view/use-children-view';
+
+import { camalizeFirstCharacter } from '@util/common';
 import { POINT_TYPES } from '@/const';
 
-import { createDestinations } from '@/mock/destination';
-import { createOffers } from '@/mock/offers';
+import HeaderView from './header/header-view.js';
+import WrapperView from './header/point-type-button/edit-point-type-wrapper-view';
+import GroupDestinationView from './header/field-group/field-group-destination-view';
+import GroupTimeView from './header/field-group/field-group-time-view';
+import GroupPriceView from './header/field-group/field-group-price-view';
+import SaveButtonView from './header/operation-buttons/save-button-view';
+import ResetButtonView from './header/operation-buttons/reset-button-view';
+import RollupButtonView from './header/operation-buttons/rollup-button-view';
+import DetailsView from './details/edit-point-details-view';
+import OffersView from './details/edit-point-offers-view';
+import DestinationView from './details/edit-point-destination-view';
 
-const destinations = createDestinations();
-const offers = createOffers();
-
-import HeaderView from '@edit-point-header/header-view';
-import WrapperView from '@edit-point-header/point-type-button/edit-point-type-wrapper-view';
-import GroupDestinationView from '@edit-point-header/field-group/field-group-destination-view';
-import GroupTimeView from '@edit-point-header/field-group/field-group-time-view';
-import GroupPriceView from '@edit-point-header/field-group/field-group-price-view';
-import SaveButtonView from '@edit-point-header/operation-buttons/save-button-view';
-import ResetButtonView from '@edit-point-header/operation-buttons/reset-button-view';
-import RollupButtonView from '@edit-point-header/operation-buttons/rollup-button-view';
-import DetailsView from '@view/edit-point/details/edit-point-details-view';
-import OffersView from '@view/edit-point/details/edit-point-offers-view';
-import DestinationView from '@view/edit-point/details/edit-point-destination-view';
-
-const createEditPointTemplate = () => (
+const createViewTemplate = () => (
   `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
     </form>
@@ -30,16 +25,21 @@ const createEditPointTemplate = () => (
 
 const checkDestination = ({ description, pictures }) => description !== '' || pictures.length > 0;
 
-export default class EditPointView extends useChildrenView(AbstractStatefulView) {
-  #destinations = [];
-  #offers = [];
+const createTypes = (type) => POINT_TYPES.map((pointType) => ({
+  id: pointType,
+  text: camalizeFirstCharacter(pointType),
+  isChecked: pointType === type,
+}));
 
-  constructor(point) {
+class EditPointView extends useChildrenView(AbstractStatefulView) {
+  #pointService = null;
+
+  constructor(point, pointService) {
     super();
 
-    this._state = EditPointView.parsePointToState(point, destinations, offers);
-    this.#destinations = destinations;
-    this.#offers = offers;
+    this.#pointService = pointService;
+
+    this._state = EditPointView.parsePointToState(point, pointService);
 
     this._addChild('header', {view: HeaderView, selector: '.event--edit'});
     this._addChild('wrapper', {view: WrapperView, selector: '.event__header'});
@@ -51,21 +51,21 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     this._addChild('rollupButton', {view: RollupButtonView, selector: '.event__header'});
     this._addChild('details', {view: DetailsView, selector: '.event--edit'});
     this._addChild('offers', {view: OffersView, selector: '.event__details'});
-    this._addChild('destination', {view: DestinationView, selector: '.event__details', state: 'destination'});
+    this._addChild('destination', {view: DestinationView, selector: '.event__details'});
 
     this.#setInnerHandlers();
   }
 
   get template() {
-    this._setChildRender('rollupButton', !!this._state.id); // this._state.isNewMode
-    this._setChildRender('offers', this._state.offers.length > 0);
+    this._setChildRender('rollupButton', ! this._state.isNewMode);
+    this._setChildRender('offers', this._state.hasOffers);
 
-    return createEditPointTemplate(this._state);
+    return createViewTemplate(this._state);
   }
 
-  setSubmitHandler = (callback) => {
-    this._callback.submit = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#submitClickHandler);
+  setSaveButtonClickHandler = (callback) => {
+    this._callback.save = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   };
 
   setRollupButtonClickHandler = (callback) => {
@@ -73,22 +73,42 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     this._children.rollupButton.setClickHandler(callback);
   };
 
+  setDeleteButtonClickHandler = (callback) => {
+    this._callback.delete = callback;
+  };
+
+  setCancelButtonClickHandler = (callback) => {
+    this._callback.cancel = callback;
+  };
+
+  setPending = (isPending) => {
+    this._children.saveButton.updateElement({
+      isDisabled: isPending,
+      isPending: isPending,
+    });
+
+    this._children.resetButton.updateElement({
+      isDisabled: isPending,
+      isPending: isPending,
+    });
+  };
+
   reset = (point) => {
     this.updateElement(
-      EditPointView.parsePointToState(point, this.#destinations, this.#offers),
+      EditPointView.parsePointToState(point, this.#pointService),
     );
   };
 
   _restoreHandlers = () => {
     this.#setInnerHandlers();
 
-    this.setSubmitHandler(this._callback.submit);
+    this.setSaveButtonClickHandler(this._callback.save);
     this.setRollupButtonClickHandler(this._callback.clickRollup);
   };
 
   #setInnerHandlers = () => {
-    this._children.groupDestination.setNameChangeHandler((name) => {
-      const destination = destinations.find((destination) => destination.name === name);
+    this._children.groupDestination.setNameChangeHandler((selectedName) => {
+      const destination = this.#pointService.getDestinationByName(selectedName);
 
       this._children.destination.updateElement({
         ...destination,
@@ -99,14 +119,23 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     });
 
     this._children.wrapper.setTypeChangeHandler((type) => {
-      const availableOffers = this.#offers.find((offer) => offer.type === type)?.offers ?? [];
+      const availableOffers = Object.values(this.#pointService.getOffersByType(type));
       const hasOffers = availableOffers.length > 0;
 
       this._children.offers.updateElement({ availableOffers, hasOffers });
     });
+
+    this._children.resetButton.setClickHandler(() => {
+      if (this._state.isNewMode) {
+        this._callback.cancel?.();
+        return;
+      }
+
+      this._callback.delete?.();
+    });
   };
 
-  #submitClickHandler = (evt) => {
+  #formSubmitHandler = (evt) => {
     evt.preventDefault();
 
     const { type } = this._children.wrapper.state;
@@ -122,41 +151,40 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     point.dateTo = dateTo;
     point.offers = offers;
 
-    this._callback.submit?.(point);
+    this._callback.save?.(point);
   };
 
-  static parsePointToState = (point, destinations, allOffers) => {
-    const isNewMode = point.id === undefined; // Boolean(point.id)
-    const types = POINT_TYPES.map((pointType) => ({
-      id: pointType,
-      text: camalizeFirstCharacter(pointType),
-      isChecked: pointType === point.type,
-    }));
-
+  static parsePointToState = (point, pointService) => {
     const {
       type,
       destination,
       offers,
     } = point;
 
-    const typeOffers = allOffers.find((offer) => offer.type === type)?.offers ?? [];
+    const typeOffers = pointService.getOffersByType(type);
 
     const availableOffers = [];
-    typeOffers.forEach((typeOffer) => {
+    Object.values(typeOffers).forEach((typeOffer) => {
       availableOffers.push({
         ...typeOffer,
-        isChecked: offers.some(({ id }) => id === typeOffer.id),
+        isChecked: offers.some((id) => id === typeOffer.id),
       });
     });
 
+    const isNewMode = point.id === undefined;
+
     return {
       ...point,
-      types,
+      types: createTypes(type),
       availableOffers,
       resetButtonText: isNewMode ? 'Cancel' : 'Delete',
-      destinationNames: destinations.map(({ name }) => name),
+      destinationNames: pointService.getDestinationNames(),
       hasDestination: checkDestination(destination),
       hasOffers: availableOffers.length > 0,
+      isNewMode,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
     };
   };
 
@@ -168,15 +196,13 @@ export default class EditPointView extends useChildrenView(AbstractStatefulView)
     delete point.resetButtonText;
     delete point.hasDestination;
     delete point.hasOffers;
-    delete point.isNew;
+    delete point.isNewMode;
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
 
     return point;
   };
-  /*
-  static parseStateToPoint = (state) => {
-    const { type, resetButtonText, ...point } = { ...state };
-
-    delete point.types;
-  };
-**/
 }
+
+export default EditPointView;

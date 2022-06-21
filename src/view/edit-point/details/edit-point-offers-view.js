@@ -1,4 +1,4 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
 const createOfferTemplate = ({ id, title, price, isChecked = false }) => (
   `<div class="event__offer-selector">
@@ -30,7 +30,7 @@ const createViewTemplate = ({ availableOffers, hasOffers = false }) => (
   </section>`
 );
 
-export default class EditPointDetailsOffersView extends AbstractStatefulView {
+class EditPointDetailsOffersView extends AbstractStatefulView {
   constructor({ availableOffers, hasOffers }) {
     super();
 
@@ -46,14 +46,13 @@ export default class EditPointDetailsOffersView extends AbstractStatefulView {
 
     const offers = [];
     offersElements.forEach(({ dataset }) => {
-      const { id, title, price } = dataset;
-      offers.push({ id, title, price});
+      offers.push(+dataset.id);
     });
 
-    return {
-      offers,
-    };
+    return { offers };
   }
 
-  _restoreHandlers = () => { };
+  _restoreHandlers = () => {};
 }
+
+export default EditPointDetailsOffersView;

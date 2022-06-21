@@ -1,18 +1,19 @@
-import { render, RenderPosition } from '@/framework/render';
+import { render, RenderPosition } from '@framework/render';
 
-import InfoView from '@info/trip-info-view.js';
-import InfoMainView from '@info/info-main-view.js';
-import InfoCostView from '@info/info-cost-view.js';
+import InfoView from '@view/info/trip-info-view';
+import InfoMainView from '@view/info/info-main-view';
+import InfoCostView from '@view/info/info-cost-view';
 
-export default class InfoPresenter {
+class InfoPresenter {
   #infoView = new InfoView();
   #infoMainView = new InfoMainView();
   #infoCostView = new InfoCostView();
 
-  init = (container) => {
-    const {headerTripMainElement} = container;
-    render(this.#infoView, headerTripMainElement, RenderPosition.AFTERBEGIN);
+  init = (containerElement) => {
+    render(this.#infoView, containerElement, RenderPosition.AFTERBEGIN);
     render(this.#infoMainView, this.#infoView.element);
     render(this.#infoCostView, this.#infoView.element);
   };
 }
+
+export default InfoPresenter;

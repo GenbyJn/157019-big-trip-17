@@ -1,4 +1,4 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
 const createTypeItemTemplate = ({ id, text, isChecked = false } = {}) => (
   `<div class="event__type-item">

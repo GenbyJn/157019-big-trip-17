@@ -1,20 +1,20 @@
-import { render, replace, remove } from '@/framework/render';
+import { render, replace, remove } from '@framework/render';
+import { isEscapeKey } from '@util/common';
 
-import { isEscapeKey } from '@/util/util';
+import { UserAction, UpdateType } from '@/const';
+
 import PointListItemView from '@view/point-list-item-view';
 import EditPointView from '@view/edit-point/edit-point-view';
 
-import {UserAction, UpdateType} from '../const.js';
-
 const Mode = {
   DEFAULT: 'DEFAULT',
-  EDITTING: 'EDITTING',
+  EDITING: 'EDITING',
 };
 
-export default class PointPresenter {
+class PointPresenter {
   #containerElement = null;
-  #changeData = null;
-  #changeMode = null;
+  #changeAction = null;
+  #pointService = null;
 
   #pointItemComponent = null;
   #editPointComponent = null;
@@ -22,11 +22,44 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor(containerElement, changeData, changeMode) {
+  constructor(containerElement, changeAction, pointService) {
     this.#containerElement = containerElement;
-    this.#changeData = changeData;
-    this.#changeMode = changeMode;
+    this.#changeAction = changeAction;
+    this.#pointService = pointService;
   }
+
+  setSaving = () => {
+    if (this.#mode === Mode.EDITING) {
+      this.#editPointComponent.setPending({
+        isSaving: true,
+        isDisabled: true,
+      });
+    }
+  };
+
+  setDeleting = () => {
+    if (this.#mode === Mode.EDITING) {
+      this.#editPointComponent.setPending({
+        isDeleting: true,
+        isDisabled: true,
+      });
+    }
+  };
+
+  setAborting = () => {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#pointItemComponent.shake();
+      return;
+    }
+
+    this.#editPointComponent.shake(() => {
+      this.#editPointComponent.setPending({
+        isDeleting: false,
+        isSaving: false,
+        isDisabled: false,
+      });
+    });
+  };
 
   init = (point) => {
     this.#point = point;
@@ -34,13 +67,16 @@ export default class PointPresenter {
     const prevPointItemComponent = this.#pointItemComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
-    this.#pointItemComponent = new PointListItemView(point);
-    this.#editPointComponent = new EditPointView(point);
+    const selectedOffers = this.#pointService.getOffersByIds(point.type, point.offers);
+
+    this.#pointItemComponent = new PointListItemView(point, selectedOffers);
+    this.#editPointComponent = new EditPointView(point, this.#pointService);
 
     this.#pointItemComponent.setRollupButtonClickHandler(this.#handlePointRollupClick);
-    this.#pointItemComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#pointItemComponent.setFavoriteButtonClickHandler(this.#handleFavoriteButtonClick);
     this.#editPointComponent.setRollupButtonClickHandler(this.#handleEditRollupClick);
-    this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
+    this.#editPointComponent.setSaveButtonClickHandler(this.#handleSaveButtonClick);
+    this.#editPointComponent.setDeleteButtonClickHandler(this.#handleDeleteButtonClick);
 
     if (prevEditPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointItemComponent, this.#containerElement);
@@ -51,7 +87,7 @@ export default class PointPresenter {
       replace(this.#pointItemComponent, prevPointItemComponent);
     }
 
-    if (this.#mode === Mode.EDITTING) {
+    if (this.#mode === Mode.EDITING) {
       replace(this.#editPointComponent, prevEditPointComponent);
       this.#mode = Mode.DEFAULT;
     }
@@ -72,11 +108,15 @@ export default class PointPresenter {
   };
 
   #replacePointToEditPoint = () => {
-    this.#changeMode();
+    this.#changeAction(
+      UserAction.CHANGE_VIEW,
+      UpdateType.PATCH,
+      null,
+    );
 
     replace(this.#editPointComponent, this.#pointItemComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
-    this.#mode = Mode.EDITTING;
+    this.#mode = Mode.EDITING;
   };
 
   #replaceEditPointToPoint = () => {
@@ -95,23 +135,26 @@ export default class PointPresenter {
     this.#replaceEditPointToPoint();
   };
 
-  #handleFormSubmit = (point) => {
-    // dayjs.isSameDate
-    const isUpdateDate = this.#point.dateFrom.toISOString() === point.dateFrom.toISOString()
-      || this.#point.dateTo.toISOString() === point.dateTo.toISOString();
-
-    this.#changeData(
+  #handleSaveButtonClick = (point) => {
+    // const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+    this.#changeAction(
       UserAction.UPDATE_POINT,
-      isUpdateDate ? UpdateType.MINOR : UpdateType.PATCH,
+      UpdateType.MINOR,
       point,
     );
-
-    this.#replaceEditPointToPoint();
   };
 
-  #handleFavoriteClick = () => {
-    this.#changeData(
-      UserAction.UPDATE_POINT, // TOGGLE_FAVORITE
+  #handleDeleteButtonClick = () => {
+    this.#changeAction(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      this.#point,
+    );
+  };
+
+  #handleFavoriteButtonClick = () => {
+    this.#changeAction(
+      UserAction.UPDATE_POINT,
       UpdateType.PATCH,
       { ...this.#point, isFavorite: !this.#point.isFavorite },
     );
@@ -124,3 +167,5 @@ export default class PointPresenter {
     }
   };
 }
+
+export default PointPresenter;

@@ -1,32 +1,59 @@
-import InfoPresenter from './presenter/info-presenter.js';
-import FiltersPresenter from './presenter/filters-presenter.js';
-import PointListPresenter from './presenter/point-list-presenter.js';
-import PointsModel from './model/points-model.js';
+import InfoPresenter from '@presenter/info-presenter';
+import FiltersPresenter from '@presenter/filters-presenter';
+import PointListPresenter from '@presenter/point-list-presenter';
 
-import PointsApiService from './points-api-service';
+import PointsModel from '@model/points-model';
+import DestinationsModel from '@model/destinations-model';
+import OffersModel from '@model/offers-model';
 
-const AUTHORIZATION = 'Basic 157019-big-trip-1';
+import NewEventButtonView from '@view/new-event-button-view';
+
+import PointsApiService from '@service/points-api-service';
+
+import { render } from '@framework/render';
+
+const AUTHORIZATION = 'Basic nGjZJ3hqXyh8';
 const END_POINT = 'https://17.ecmascript.pages.academy/big-trip/';
 
 const headerTripMainElement = document.querySelector('.trip-main');
 const headerMainFiltersElement = headerTripMainElement.querySelector('.trip-controls__filters');
 const mainPointsElement = document.querySelector('.trip-events');
 
-const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION));
+const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
+
+const pointsModel = new PointsModel(pointsApiService);
+const destinationsModel = new DestinationsModel(pointsApiService);
+const offersModel = new OffersModel(pointsApiService);
 
 const infoPresenter = new InfoPresenter();
 const filtersPresenter = new FiltersPresenter();
-const pointListPresenter = new PointListPresenter(mainPointsElement, pointsModel);
+const pointListPresenter = new PointListPresenter(
+  mainPointsElement,
+  pointsModel,
+  destinationsModel,
+  offersModel,
+);
 
-infoPresenter.init({headerTripMainElement});
-filtersPresenter.init({headerMainFiltersElement});
+const newEventButtonComponent = new NewEventButtonView();
 
+newEventButtonComponent.setClickHandler(() => {
+  newEventButtonComponent.setDisabled(true);
+
+  pointListPresenter.createPoint(() => {
+    newEventButtonComponent.setDisabled(false);
+  });
+});
+
+
+infoPresenter.init(headerTripMainElement);
+filtersPresenter.init(headerMainFiltersElement);
 pointListPresenter.init();
 
-pointsModel.init()
-  .finally(() => {
-    // console.log(pointsModel.points);
-  })
-  .catch((err) => {
-    console.warn(err);
-  });
+render(newEventButtonComponent, headerTripMainElement);
+
+Promise.all([
+  destinationsModel.init(),
+  offersModel.init(),
+]).finally(() => {
+  pointsModel.init();
+});

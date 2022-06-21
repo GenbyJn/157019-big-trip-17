@@ -1,4 +1,4 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
 const createPhotoTemplate = ({ src, description }) => (
   `<img class="event__photo" src="${src}" alt="${description}">`
@@ -21,10 +21,10 @@ const createViewTemplate = ({ description, pictures, hasDestination = false }) =
 );
 
 export default class EditPointDestinationView extends AbstractStatefulView {
-  constructor({ description, pictures, hasDestination }) {
+  constructor({ destination, hasDestination }) {
     super();
 
-    this._state = { description, pictures, hasDestination };
+    this._state = { ...destination, hasDestination };
   }
 
   get template() {

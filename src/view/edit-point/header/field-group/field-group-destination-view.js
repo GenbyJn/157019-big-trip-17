@@ -1,10 +1,10 @@
-import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
-const createOptionTemplate = (name) => `<option value="${name}"></option>`;
+const createDestinationOption = (name) => `<option value="${name}"></option>`;
 
-const createViewTemplate = ({ type, name, destinationNames}) => (
-  `<div class="event__field-group  event__field-group--destination">
-    <label class="event__label  event__type-output" for="event-destination-1">
+const createViewTemplate = ({ type, name, destinationNames = [] }) => (
+  `<div class="event__field-group event__field-group--destination">
+    <label class="event__label event__type-output" for="event-destination-1">
       ${type}
     </label>
     <input 
@@ -17,12 +17,12 @@ const createViewTemplate = ({ type, name, destinationNames}) => (
       required
     >
     <datalist id="destination-list-1">
-      ${destinationNames.map(createOptionTemplate).join('')}
+      ${destinationNames.map(createDestinationOption).join('')}
     </datalist>
   </div>`
 );
 
-export default class GroupDestinationView extends AbstractStatefulView {
+class GroupDestinationView extends AbstractStatefulView {
   constructor({ type, destination: { name } , destinationNames }) {
     super();
 
@@ -46,29 +46,29 @@ export default class GroupDestinationView extends AbstractStatefulView {
   #setInnterHandlers = () => {
     const destinationInputElement = this.element.querySelector('.event__input--destination');
 
-    destinationInputElement.addEventListener('focusin', this.#onDestinationInputFocusin);
-    destinationInputElement.addEventListener('change', this.#onDestinationInputChange);
+    destinationInputElement.addEventListener('focusin', this.#destinationInputFocusinHandler);
+    destinationInputElement.addEventListener('change', this.#destinationInputChangeHandler);
   };
 
-  #onDestinationInputFocusin = (evt) => {
+  #destinationInputFocusinHandler = (evt) => {
     const target = evt.target;
 
     target.placeholder = target.value;
     target.value = '';
 
-    const onTargetKeydown = () => {
-      evt.preventDefault();
+    const targetKeydownHandler = (keydownEvt) => {
+      keydownEvt.preventDefault();
     };
 
     target.addEventListener('focusout', () => {
       target.value = target.placeholder;
-      target.removeEventListener('keydown', onTargetKeydown);
+      target.removeEventListener('keydown', targetKeydownHandler);
     }, { once: true });
 
-    target.addEventListener('keydown', onTargetKeydown);
+    target.addEventListener('keydown', targetKeydownHandler);
   };
 
-  #onDestinationInputChange = (evt) => {
+  #destinationInputChangeHandler = (evt) => {
     evt.preventDefault();
 
     const name = evt.target.value;
@@ -77,3 +77,5 @@ export default class GroupDestinationView extends AbstractStatefulView {
     this._callback?.change(name);
   };
 }
+
+export default GroupDestinationView;
