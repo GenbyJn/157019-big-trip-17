@@ -1,24 +1,27 @@
 import AbstractView from '@framework/view/abstract-view';
 
 const createViewTemplate = () => (
-  `<button class="event__rollup-btn" type="button">
-    <span class="visually-hidden">Open event</span>
-  </button>`
+  '<button class="trip-main__event-add-btn btn btn--big btn--yellow" type="button">New event</button>'
 );
 
-class RollupButtonView extends AbstractView {
+class NewEventButtonView extends AbstractView {
   get template() {
     return createViewTemplate();
   }
+
+  setDisabled = (value) => {
+    this.element.disabled = value;
+  };
 
   setClickHandler = (callback) => {
     this._callback.click = callback;
     this.element.addEventListener('click', this.#clickHandler);
   };
 
-  #clickHandler = () => {
+  #clickHandler = (evt) => {
+    evt.preventDefault();
     this._callback.click();
   };
 }
 
-export default RollupButtonView;
+export default NewEventButtonView;

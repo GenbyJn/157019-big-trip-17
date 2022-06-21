@@ -1,12 +1,11 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractView from '@framework/view/abstract-view';
 
-const createEditPointHeaderTemplate = () => '<header class="event__header"></header>';
+const createViewTemplate = () => '<header class="event__header"></header>';
 
-export default class EditPointHeaderView extends AbstractView {
-
+class EditPointHeaderView extends AbstractView {
   get template() {
-    return createEditPointHeaderTemplate();
+    return createViewTemplate();
   }
 }
 
-
+export default EditPointHeaderView;

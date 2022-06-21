@@ -1,13 +1,25 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '@/framework/view/abstract-stateful-view';
 
-const createSaveButtonTemplate = () =>  '<button class="event__save-btn btn btn--blue" type="submit">Save</button>';
+const createViewTemplate = ({ isDisabled, isSaving }) => (
+  `<button 
+    class="event__save-btn btn btn--blue" 
+    type="submit" 
+    ${isDisabled ? 'disabled' : ''}
+    >${isSaving ? 'Saving...' : 'Save'}</button>`
+);
 
-export default class SaveButtonView extends AbstractView {
+class SaveButtonView extends AbstractStatefulView {
+  constructor({ isSaving, isDisabled }) {
+    super();
 
-  get template() {
-    return createSaveButtonTemplate();
+    this._state = { isSaving, isDisabled };
   }
 
+  get template() {
+    return createViewTemplate(this._state);
+  }
+
+  _restoreHandlers = () => {};
 }
 
-
+export default SaveButtonView;

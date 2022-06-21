@@ -1,27 +1,32 @@
-import  dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import dayjs from 'dayjs';
+import pluginDuration from 'dayjs/plugin/duration';
 
-dayjs.extend(duration);
+dayjs.extend(pluginDuration);
 
+const getDuration = (date1, date2, start = 'second') =>
+  dayjs.duration(dayjs(date1).startOf(start).diff(dayjs(date2).startOf(start)));
 
-const formatMonthDate = (date) => dayjs(date).format('MMM D');
-const formatTimeDate = (date) => dayjs(date).format('HH:MM');
-
-const formatDuration = (milliseconds) => {
-  const durationDate = dayjs.duration(milliseconds);
-
-  if (durationDate.days() > 0) {
-    return durationDate.format('DD[D] HH[H] mm[M]');
+const formatDuration = (duration) => {
+  if (duration.days() > 0) {
+    return duration.format('DD[D] HH[H] mm[M]');
   }
-  if (durationDate.hours() > 0) {
-    return durationDate.format('HH[H] mm[M]');
+  if (duration.hours() > 0) {
+    return duration.format('HH[H] mm[M]');
   }
 
-  return durationDate.format('mm[M]');
+  return duration.format('mm[M]');
 };
+
+const formatEventDuration = (dateFrom, dateTo) =>
+  formatDuration(getDuration(dateTo, dateFrom, 'minute'));
+
+const formatEventTime = (date) => date ? dayjs(date).format('DD/MM/YY HH:mm') : '';
+const formatMonthDate = (date) => date ? dayjs(date).format('MMM D') : '';
+const formatTimeDate = (date) => date ? dayjs(date).format('HH:mm') : '';
 
 export {
   formatMonthDate,
   formatTimeDate,
-  formatDuration,
+  formatEventDuration,
+  formatEventTime,
 };

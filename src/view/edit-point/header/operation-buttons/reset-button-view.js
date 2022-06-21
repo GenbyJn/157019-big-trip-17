@@ -1,19 +1,45 @@
-import AbstractView from '@/framework/view/abstract-view';
+import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
-const createResetButtonTemplate = ({ text }) => (
-  `<button class="event__reset-btn" type="reset">${text}</button>`
-);
+const getDeleteButtonText = (isDeleting) => isDeleting ? 'Deleting...' : 'Delete';
 
-export default class ResetButtonView extends AbstractView {
+const createResetButtonTemplate = ({ isNewMode, isDeleting = false, isDisabled = false }) => {
+  const text = isNewMode
+    ? 'Cancel'
+    : getDeleteButtonText(isDeleting);
 
-  _state = {};
+  return (
+    `<button 
+      class="event__reset-btn" 
+      type="reset"
+      ${isDisabled ? 'disabled' : ''}
+    >${text}</button>`
+  );
+};
 
-  constructor({ resetButtonText: text }) {
+class ResetButtonView extends AbstractStatefulView {
+  constructor({ isNewMode, isDeleting, isDisabled }) {
     super();
-    this._state = { text };
+
+    this._state = { isNewMode, isDeleting, isDisabled };
   }
 
   get template() {
     return createResetButtonTemplate(this._state);
   }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#clickHandler);
+  };
+
+  _restoreHandlers = () => {
+    this.setClickHandler(this._callback.click);
+  };
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click?.();
+  };
 }
+
+export default ResetButtonView;

@@ -1,10 +1,11 @@
-import AbstractView from '@/framework/view/abstract-view';
-import { SortType } from '@/mock/const';
+import AbstractView from '@framework/view/abstract-view';
 
-const createSortTemplate = () => (
+import { SortType } from '@/const';
+
+const createViewTemplate = () => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
-      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" checked data-sort-type="${SortType.DEFAULT}">
+      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" checked data-sort-type="${SortType.DAY}">
       <label class="trip-sort__btn" for="sort-day">Day</label>
     </div>
     <div class="trip-sort__item  trip-sort__item--event">
@@ -26,24 +27,19 @@ const createSortTemplate = () => (
   </form>`
 );
 
-export default class SortView extends AbstractView {
-
+class SortView extends AbstractView {
   get template() {
-    return createSortTemplate();
+    return createViewTemplate();
   }
 
   setSortTypeChangeHandler = (callback) => {
-    this._callback.sortTypeChange = callback;
-    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+    this._callback.change = callback;
+    this.element.addEventListener('change', this.#changeHandler);
   };
 
-  #sortTypeChangeHandler = (evt) => {
-    if (evt.target.tagName !== 'INPUT') {
-      return;
-    }
-
-    evt.preventDefault();
-    this._callback.sortTypeChange(evt.target.dataset.sortType);
+  #changeHandler = (evt) => {
+    this._callback.change(evt.target.dataset.sortType);
   };
-
 }
+
+export default SortView;

@@ -31,12 +31,13 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '@util': path.resolve(__dirname, 'src/util'),
       '@view': path.resolve(__dirname, 'src/view'),
-      '@edit-point-header': path.resolve(__dirname, 'src/view/edit-point/header'),
-      '@filters': path.resolve(__dirname, 'src/view/filters'),
-      '@info': path.resolve(__dirname, 'src/view/info'),
-      '@sort': path.resolve(__dirname, 'src/view/sort'),
+      '@model': path.resolve(__dirname, 'src/model'),
       '@presenter': path.resolve(__dirname, 'src/presenter'),
+      '@service': path.resolve(__dirname, 'src/service'),
+      '@framework': path.resolve(__dirname, 'src/framework'),
     },
-  }
+  },
+
 }

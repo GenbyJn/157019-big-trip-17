@@ -1,20 +1,25 @@
-import { randomizeInteger } from '@/mock/random';
-import { POINT_DESTINATIONS } from '@/mock/const';
-
-const generateDestinations = () =>  POINT_DESTINATIONS[randomizeInteger(0, POINT_DESTINATIONS.length - 1)];
-
-const generateDestination = () => ({
-  description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-  name: generateDestinations(),
-  pictures: [
+const createDestination = ({
+  name = 'Chamonix',
+  description = 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
+  pictures = [
     {
-      src: `http://picsum.photos/248/152?r=${randomizeInteger(0,100)}`,
-      description: 'Chamonix parliament building'
+      src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+      description: 'Chamonix parliament building',
     }
-  ]
+  ],
+} = {}) => ({
+  description,
+  name,
+  pictures,
 });
 
+const createDestinations = () => [
+  createDestination({ name: 'Moscow', description: 'description for Moscow' }),
+  createDestination({ name: 'Moon', description: 'description for Moon' }),
+  createDestination({ name: 'Mars', description: '', pictures: [] }),
+];
+
 export {
-  generateDestinations,
-  generateDestination,
+  createDestination,
+  createDestinations,
 };
