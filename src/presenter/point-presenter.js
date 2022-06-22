@@ -136,7 +136,6 @@ class PointPresenter {
   };
 
   #handleSaveButtonClick = (point) => {
-    // const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
     this.#changeAction(
       UserAction.UPDATE_POINT,
       UpdateType.MINOR,

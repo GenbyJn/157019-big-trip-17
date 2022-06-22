@@ -119,14 +119,6 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
     });
 
     this._children.resetButton.setClickHandler(() => {
-      /*
-      if (this._state.isNewMode) {
-        this._callback.cancel?.();
-        return;
-      }
-
-      this._callback.delete?.();
-      **/
 
       this._callback[this._state.isNewMode ? 'cancel' : 'delete']?.();
     });
