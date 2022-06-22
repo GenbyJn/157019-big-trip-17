@@ -14,7 +14,7 @@ import PointsApiService from '@service/points-api-service';
 
 import { render } from '@framework/render';
 
-const AUTHORIZATION = 'Basic bzg7uwxUbCe9';
+const AUTHORIZATION = 'Basic KPQzVz8M9AKU';
 const END_POINT = 'https://17.ecmascript.pages.academy/big-trip/';
 
 const headerTripMainElement = document.querySelector('.trip-main');
