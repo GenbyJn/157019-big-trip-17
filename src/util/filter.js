@@ -1,0 +1,12 @@
+import { FilterType } from '@/const';
+
+const filterTypeToPoints = {
+  [FilterType.EVERYTHING]: (points) => points.slice(),
+  [FilterType.PAST]: (points, dateNow) => points.filter(({ dateFrom }) => dateFrom < dateNow),
+  [FilterType.FUTURE]: (points, dateNow) => points.filter(({ dateFrom }) => dateFrom > dateNow),
+};
+
+const filterPoints = (points, filterType = FilterType.EVERYTHING) =>
+  filterTypeToPoints[filterType](points, Date.now());
+
+export { filterPoints };

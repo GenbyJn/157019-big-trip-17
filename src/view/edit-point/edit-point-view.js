@@ -81,16 +81,9 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
     this._callback.cancel = callback;
   };
 
-  setPending = (isPending) => {
-    this._children.saveButton.updateElement({
-      isDisabled: isPending,
-      isPending: isPending,
-    });
-
-    this._children.resetButton.updateElement({
-      isDisabled: isPending,
-      isPending: isPending,
-    });
+  setPending = (state) => {
+    this._children.saveButton.updateElement(state);
+    this._children.resetButton.updateElement(state);
   };
 
   reset = (point) => {
@@ -126,12 +119,16 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
     });
 
     this._children.resetButton.setClickHandler(() => {
+      /*
       if (this._state.isNewMode) {
         this._callback.cancel?.();
         return;
       }
 
       this._callback.delete?.();
+      **/
+
+      this._callback[this._state.isNewMode ? 'cancel' : 'delete']?.();
     });
   };
 
@@ -155,11 +152,7 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
   };
 
   static parsePointToState = (point, pointService) => {
-    const {
-      type,
-      destination,
-      offers,
-    } = point;
+    const { type, destination, offers } = point;
 
     const typeOffers = pointService.getOffersByType(type);
 
@@ -177,7 +170,6 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
       ...point,
       types: createTypes(type),
       availableOffers,
-      resetButtonText: isNewMode ? 'Cancel' : 'Delete',
       destinationNames: pointService.getDestinationNames(),
       hasDestination: checkDestination(destination),
       hasOffers: availableOffers.length > 0,
@@ -193,7 +185,6 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
 
     delete point.destinationNames;
     delete point.availableOffers;
-    delete point.resetButtonText;
     delete point.hasDestination;
     delete point.hasOffers;
     delete point.isNewMode;

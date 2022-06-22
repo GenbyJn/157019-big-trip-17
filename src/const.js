@@ -37,7 +37,6 @@ const UpdateType = {
 
 const TripMessage = {
   LOADING: 'Loading...',
-  NO_POINTS: 'Click New Event to create your first point',
 };
 
 const UiBlockerTimeLimit = {

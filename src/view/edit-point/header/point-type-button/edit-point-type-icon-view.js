@@ -10,7 +10,7 @@ const createViewTemplate = ({ type }) => (
   >`
 );
 
-export default class EditPointTypeIconView extends AbstractView {
+class EditPointTypeIconView extends AbstractView {
   constructor({ type }) {
     super();
 
@@ -25,3 +25,5 @@ export default class EditPointTypeIconView extends AbstractView {
     this.element.src = `img/icons/${type}.png`;
   };
 }
+
+export default EditPointTypeIconView;
