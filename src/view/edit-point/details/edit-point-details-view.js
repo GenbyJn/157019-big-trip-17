@@ -1,12 +1,11 @@
 import AbstractView from '@framework/view/abstract-view';
 
-const createEditPointDetailsTemplate = () => '<section class="event__details"></section>';
+const createViewTemplate = () => '<section class="event__details"></section>';
 
-export default class EditPointDetailsView extends AbstractView{
-
+class EditPointDetailsView extends AbstractView{
   get template() {
-    return createEditPointDetailsTemplate();
+    return createViewTemplate();
   }
 }
 
-
+export default EditPointDetailsView;

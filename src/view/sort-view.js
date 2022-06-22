@@ -32,6 +32,10 @@ class SortView extends AbstractView {
     return createViewTemplate();
   }
 
+  setSort = (sortType) => {
+    this.element.querySelector(`input[id=sort-${sortType}]`).checked = true;
+  };
+
   setSortTypeChangeHandler = (callback) => {
     this._callback.change = callback;
     this.element.addEventListener('change', this.#changeHandler);

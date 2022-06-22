@@ -18,7 +18,7 @@ const createViewTemplate = ({ basePrice }) => (
   </div>`
 );
 
-export default class GroupPriceView extends AbstractView {
+class GroupPriceView extends AbstractView {
   constructor({ basePrice }) {
     super();
 
@@ -37,3 +37,5 @@ export default class GroupPriceView extends AbstractView {
     };
   }
 }
+
+export default GroupPriceView;

@@ -23,7 +23,7 @@ const createViewTemplate = ({ types }) => (
   </div>`
 );
 
-export default class EditPointTypeListView extends AbstractStatefulView {
+class EditPointTypeListView extends AbstractStatefulView {
   constructor({ type, types }) {
     super();
 
@@ -51,3 +51,5 @@ export default class EditPointTypeListView extends AbstractStatefulView {
   };
 
 }
+
+export default EditPointTypeListView;

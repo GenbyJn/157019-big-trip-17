@@ -20,7 +20,7 @@ const createViewTemplate = ({ description, pictures, hasDestination = false }) =
   </section>`
 );
 
-export default class EditPointDestinationView extends AbstractStatefulView {
+class EditPointDestinationView extends AbstractStatefulView {
   constructor({ destination, hasDestination }) {
     super();
 
@@ -31,5 +31,7 @@ export default class EditPointDestinationView extends AbstractStatefulView {
     return createViewTemplate(this._state);
   }
 
-  _restoreHandlers = () => { };
+  _restoreHandlers = () => {};
 }
+
+export default EditPointDestinationView;

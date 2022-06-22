@@ -81,9 +81,6 @@ class GroupTimeView extends AbstractStatefulView {
       minDate: dateFrom,
       onClose: this.#endtDatepickerCloseHandler,
     });
-
-    startTimeInputElement.addEventListener('keydown', this.#timeInputKeydownHandler);
-    endTimeInputElement.addEventListener('keydown', this.#timeInputKeydownHandler);
   };
 
   #startDatepickerCloseHandler = ([dateFrom]) => {
@@ -94,10 +91,6 @@ class GroupTimeView extends AbstractStatefulView {
   #endtDatepickerCloseHandler = ([dateTo]) => {
     this.#startDatepicker.set('maxDate', dateTo);
     this._setState({ dateTo });
-  };
-
-  #timeInputKeydownHandler = (evt) => {
-    evt.preventDefault();
   };
 }
 
