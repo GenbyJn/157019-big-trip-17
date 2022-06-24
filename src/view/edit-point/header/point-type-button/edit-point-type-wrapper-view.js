@@ -44,6 +44,7 @@ class EditPointTypeWrapperView extends useChildrenView(AbstractView) {
   #handleTypeListChange = (type) => {
     this._state.type = type;
     this._children.typeIcon.updateElement({ type });
+    this._children.typeIcon.click();
     this._callback.change?.(type);
   };
 }

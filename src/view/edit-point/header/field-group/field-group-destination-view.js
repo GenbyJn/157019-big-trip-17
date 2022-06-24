@@ -1,8 +1,10 @@
 import AbstractStatefulView from '@framework/view/abstract-stateful-view';
 
-const createDestinationOption = (name) => `<option value="${name}"></option>`;
+import he from 'he';
 
-const createViewTemplate = ({ type, name, destinationNames = [] }) => (
+const createDestinationOption = (name) => `<option value="${he.encode(name)}"></option>`;
+
+const createViewTemplate = ({ type, destinationName, destinationNames = [] }) => (
   `<div class="event__field-group event__field-group--destination">
     <label class="event__label event__type-output" for="event-destination-1">
       ${type}
@@ -12,7 +14,7 @@ const createViewTemplate = ({ type, name, destinationNames = [] }) => (
       id="event-destination-1"
       type="text"
       name="event-destination"
-      value="${name}" 
+      value="${he.encode(destinationName)}" 
       list="destination-list-1"
       required
     >
@@ -23,10 +25,10 @@ const createViewTemplate = ({ type, name, destinationNames = [] }) => (
 );
 
 class GroupDestinationView extends AbstractStatefulView {
-  constructor({ type, destination: { name } , destinationNames }) {
+  constructor({ type, destinationName, destinationNames }) {
     super();
 
-    this._state = { type, name, destinationNames };
+    this._state = { type, destinationName, destinationNames, isValid: true };
 
     this.#setInnterHandlers();
   }
@@ -37,6 +39,11 @@ class GroupDestinationView extends AbstractStatefulView {
 
   setNameChangeHandler = (callback) => {
     this._callback.change = callback;
+  };
+
+  setValidity = (message = '') => {
+    this._state.isValid = message === '';
+    this.element.querySelector('.event__input--destination').setCustomValidity(message);
   };
 
   _restoreHandlers = () => {
@@ -51,30 +58,40 @@ class GroupDestinationView extends AbstractStatefulView {
   };
 
   #destinationInputFocusinHandler = (evt) => {
-    const target = evt.target;
+    const inputElement = evt.target;
 
-    target.placeholder = target.value;
-    target.value = '';
+    inputElement.placeholder = inputElement.value;
+    inputElement.value = '';
 
-    const targetKeydownHandler = (keydownEvt) => {
-      keydownEvt.preventDefault();
+    const InputFocusoutHandler = (focusoutEvt) => {
+      focusoutEvt.preventDefault();
+
+      if (inputElement.value === '') {
+        inputElement.value = inputElement.placeholder;
+        return;
+      }
+
+      if (! this._state.isValid) {
+        inputElement.value = '';
+        inputElement.placeholder = '';
+        this._state.destinationName = '';
+      }
     };
 
-    target.addEventListener('focusout', () => {
-      target.value = target.placeholder;
-      target.removeEventListener('keydown', targetKeydownHandler);
-    }, { once: true });
-
-    target.addEventListener('keydown', targetKeydownHandler);
+    inputElement.addEventListener('focusout', InputFocusoutHandler, { once: true });
   };
 
   #destinationInputChangeHandler = (evt) => {
     evt.preventDefault();
 
-    const name = evt.target.value;
+    const { value, placeholder } = evt.target;
 
-    this.updateElement({ name });
-    this._callback?.change(name);
+    if (value !== placeholder) {
+      this._state.destinationName = value;
+      this._callback?.change(value);
+    }
+
+    evt.target.blur();
   };
 }
 

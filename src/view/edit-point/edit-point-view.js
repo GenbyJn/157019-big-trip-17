@@ -102,9 +102,18 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
   #setInnerHandlers = () => {
     this._children.groupDestination.setNameChangeHandler((selectedName) => {
       const destination = this.#pointService.getDestinationByName(selectedName);
+      if (destination === null) {
+        this._children.groupDestination.setValidity('Select a destination from the list.');
+        this._children.destination.updateElement({
+          destinationName: '',
+          hasDestination: false,
+        });
+        return;
+      }
 
+      this._children.groupDestination.setValidity('');
       this._children.destination.updateElement({
-        ...destination,
+        destinationName: destination.name,
         hasDestination: checkDestination(destination),
       });
 
@@ -116,6 +125,7 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
       const hasOffers = availableOffers.length > 0;
 
       this._children.offers.updateElement({ availableOffers, hasOffers });
+      this._children.groupDestination.updateElement({ type });
     });
 
     this._children.resetButton.setClickHandler(() => {
@@ -162,6 +172,7 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
       ...point,
       types: createTypes(type),
       availableOffers,
+      destinationName: destination.name,
       destinationNames: pointService.getDestinationNames(),
       hasDestination: checkDestination(destination),
       hasOffers: availableOffers.length > 0,
@@ -175,8 +186,10 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
   static parseStateToPoint = (state) => {
     const point = { ...state };
 
-    delete point.destinationNames;
+    delete point.point.types;
     delete point.availableOffers;
+    delete point.destinationName;
+    delete point.destinationNames;
     delete point.hasDestination;
     delete point.hasOffers;
     delete point.isNewMode;

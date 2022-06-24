@@ -137,9 +137,14 @@ class PointListPresenter {
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   };
 
-  #clearList = () => {
+  #clearList = ({ resetSortType = false } = {}) => {
     if (this.#tripMessageComponent !== null) { // if (this.#tripMessageComponent) {...}
       remove(this.#tripMessageComponent);
+    }
+
+    if (resetSortType) {
+      this.#currentSortType = SortType.DAY;
+      this.#sortComponent.setSort(SortType.DAY);
     }
 
     this.#pointNewPresenter?.destroy();
@@ -205,6 +210,10 @@ class PointListPresenter {
         break;
       case UpdateType.MINOR:
         this.#clearList();
+        this.#renderList();
+        break;
+      case UpdateType.MAJOR:
+        this.#clearList({ resetSortType: true });
         this.#renderList();
         break;
       case UpdateType.INIT:

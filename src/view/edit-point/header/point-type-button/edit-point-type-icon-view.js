@@ -24,6 +24,11 @@ class EditPointTypeIconView extends AbstractView {
   updateElement = ({ type }) => {
     this.element.src = `img/icons/${type}.png`;
   };
+
+  click = () => {
+    this.element.click();
+  };
+
 }
 
 export default EditPointTypeIconView;
