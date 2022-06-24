@@ -186,7 +186,7 @@ class EditPointView extends useChildrenView(AbstractStatefulView) {
   static parseStateToPoint = (state) => {
     const point = { ...state };
 
-    delete point.point.types;
+    delete point.types;
     delete point.availableOffers;
     delete point.destinationName;
     delete point.destinationNames;
